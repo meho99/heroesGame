@@ -25,7 +25,7 @@ cube2.position.set(0, 0, 0)
 scene.add(cube2);
 
 const testFunc = (element) => {
-    console.log(element)
+    console.log('clicked elemenmt', element)
 }
 enableMouseEventsOnScene(undefined, testFunc)
 
