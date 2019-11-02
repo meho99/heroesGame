@@ -27,9 +27,10 @@ const getObjectAfterClick = (e) => {
     var intersects = raycaster.intersectObjects(scene.children)
 
     if (intersects.length > 0) {
-        return {element: intersects[0].object, clickPosition: mouse}
+        console.log(intersects[0].point)
+        return {element: intersects[0].object, clickPosition: intersects[0].point}
     }
-    else return {element: null, clickPosition: mouse}
+    else return {}
 }
 
 const clickFunction = (e, afterClickFuntion) => {
