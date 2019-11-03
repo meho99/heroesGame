@@ -18,6 +18,14 @@ loadModel(treeModel, treeModelMtl, model)
 scene.add(model)
 model.scale.set(5, 5, 5)
 
+import {
+    allPlayers,
+    findPlayerIndexByCurrentRound
+} from '../characters/Player/allPlayers'
+
+let currentRound = 1
+
+
 const speed = 3
 let distance = 0
 let range = 100
@@ -33,15 +41,15 @@ var board = new THREE.Mesh(boardGeometry, boardMaterial);
 boardGeometry.rotateX(-Math.PI / 2)
 scene.add(board);
 
-var cubeContainer = new THREE.Object3D()
+var cubeContainer = new THREE.Object3D() //
 
 
-var cubeGeometry = new THREE.BoxGeometry(10, 10, 10)
-var cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xfab0cd })
-var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+var cubeGeometry = new THREE.BoxGeometry(10, 10, 10) //
+var cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xfab0cd }) //
+var cube = new THREE.Mesh(cubeGeometry, cubeMaterial) //
 cubeContainer.position.set(0, playerY, 0)
 cube.userData.clickable = true
-cubeContainer.add(cube)
+cubeContainer.add(cube) //
 scene.add(cubeContainer)
 
 var circleGeometry = new THREE.CircleGeometry(range, 320);
@@ -52,9 +60,11 @@ circle.position.set(cubeContainer.position.x, 0.1, cubeContainer.position.z)
 circle.userData.moveHere = true
 scene.add(circle)
 
-const moveCube = ({ element, clickPosition }) => {
 
-    if (element.userData.moveHere) {
+
+const moveCube = ({ element, clickPosition }) => {
+    console.log(element.userData.moveHere)
+    if (element.userData.moveHere === allPlayers[findPlayerIndexByCurrentRound(currentRound)].round) {
 
         cube.rotation.y = Math.atan2(
             cubeContainer.position.clone().x - clickedPosition.x,
@@ -107,4 +117,17 @@ const update = () => {
 
 
 }
-animateStart(update)
+console.log(allPlayers, findPlayerIndexByCurrentRound(currentRound))
+console.log(allPlayers[findPlayerIndexByCurrentRound(currentRound)])
+
+export const worldNavigationStart = () => {
+    console.log(allPlayers, findPlayerIndexByCurrentRound(currentRound))
+    console.log(allPlayers[findPlayerIndexByCurrentRound(currentRound)])
+    for(const player of allPlayers){
+        player.makePlayerRangeCircle()
+        scene.add(player.getPlayerContainer())
+        scene.add(player.getPlayerCircle())
+    }
+    animateStart(update)
+}
+
