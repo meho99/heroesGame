@@ -40,8 +40,8 @@ controls.maxDistance = 500
 controls.minDistance = 0
 
 // ----- osie -----
-const axesHelper = new THREE.AxesHelper(500)
-scene.add(axesHelper)
+//const axesHelper = new THREE.AxesHelper(500)
+//scene.add(axesHelper)
 
 // ----- world rendering -----
 

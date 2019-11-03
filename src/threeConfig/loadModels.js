@@ -5,10 +5,11 @@ import MTLLoader from 'three-mtl-loader'
 OBJLoader(THREE)
 
 const myTHREE = THREE
-const loader = new myTHREE.OBJLoader()
-const mtlLoader = new MTLLoader()
 
 export const loadModel = async (objFile, mtlFile, place) => {
+    const loader = new myTHREE.OBJLoader()
+    const mtlLoader = new MTLLoader()
+    
     await mtlLoader.load(mtlFile, async (materials) => {
         materials.preload()
         loader.setMaterials(materials)

@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { playersModels } from './playersModels'
 
 export class Player {
-    constructor(range, modelName) {
+    constructor(range, modelName, startPosition) {
 
         this.range = range
         this.currentRange = range
@@ -12,22 +12,22 @@ export class Player {
         this.speed = 3
         this.round = 0
 
-        this.findPlayerModel()
+        this.findPlayerModel(startPosition)
     }
-    findPlayerModel = () => {
+    findPlayerModel = ({ x, z }) => {
         this.modelDetails = playersModels.find(model => model.name = this.modelName)
 
         this.playerContainer = new THREE.Object3D()
         this.playerModel = new THREE.Mesh(this.modelDetails.geometry, this.modelDetails.material)
 
         this.playerContainer.add(this.playerModel)
-        this.playerContainer.position.setY(20)
+        this.playerContainer.position.set(x, this.FlightHeight, z)
     }
 
     makePlayerRangeCircle = () => {
         const circleGeometry = new THREE.CircleGeometry(this.currentRange, 320);
         circleGeometry.rotateX(-Math.PI / 2)
-        const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+        const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.2 })
 
         this.circle = new THREE.Mesh(circleGeometry, circleMaterial)
         this.circle.userData.moveHere = this.round
@@ -42,7 +42,7 @@ export class Player {
         this.playerContainer.position.set(x, y, z)
     }
     updateCirclePosition = () => {
-        this.circle.position.set(this.playerContainer.position.x, 0.1, this.playerContainer.position.z)
+        this.circle.position.set(this.playerContainer.position.x, 0.5, this.playerContainer.position.z)
     }
     decreasePlayerRange = (value) => {
         this.currentRange -= value
@@ -54,10 +54,15 @@ export class Player {
         this.circle.geometry = newCircleGeometry
     }
 
-    endPlayerRound = () => {
+    endPlayerRound = (scene) => {
+        this.showCircle = false
+        scene.remove(this.circle)
+    }
+    startPlayerRound = (scene) => {
+        this.showCircle = true
         this.currentRange = this.range
         this.updateCircleSize()
-        this.showCircle = false
+        if (scene) scene.add(this.circle)
     }
 
     getPlayerMoveVectors = (element, clickPosition, previousClickedPosition) => {
