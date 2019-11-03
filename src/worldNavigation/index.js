@@ -3,7 +3,6 @@ import * as THREE from 'three'
 import {
     scene,
     animateStart,
-    camera,
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
     animateStop
@@ -15,6 +14,10 @@ import {
     findPlayerIndexByCurrentRound
 } from '../characters/Player/allPlayers'
 
+import {
+    Bird
+} from '../characters/Enemies/Bird'
+
 let currentRound = 1
 
 let distance = 0
@@ -22,6 +25,8 @@ let clickedPosition = new THREE.Vector3(0, 20, 0)
 let directionVect = new THREE.Vector3(0, 0, 0)
 
 let currentPlayer = {}
+
+let bird
 
 const movePlayer = ({ element, clickPosition }) => {
     [clickedPosition, directionVect] = allPlayers[findPlayerIndexByCurrentRound(currentRound)].getPlayerMoveVectors(element, clickPosition, clickedPosition) || [clickedPosition, directionVect]
@@ -52,30 +57,37 @@ const update = () => {
                 scene.add(currentPlayer.getPlayerCircle())
                 currentPlayer.showCircle = true
             }
-            else {
-                currentPlayer.endPlayerRound()
-                goToNextRound()
-            }
 
             enableMouseEventsOnScene(undefined, movePlayer)
         }
     }
+
+    bird.moveBird(currentPlayer.getPlayerContainer(), currentPlayer.getPlayerModel())
 }
+var boardGeometry = new THREE.PlaneGeometry(1000, 1000);
+var boardMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+var board = new THREE.Mesh(boardGeometry, boardMaterial);
+boardGeometry.rotateX(-Math.PI / 2)
+scene.add(board);
 
 const goToNextRound = () => {
+    currentPlayer.endPlayerRound(scene)
 
     directionVect = new THREE.Vector3(0, 0, 0)
     currentRound += 1
 
     currentPlayer = allPlayers[findPlayerIndexByCurrentRound(currentRound)]
-    currentPlayer.showCircle = true
+    currentPlayer.startPlayerRound(scene)
 
     clickedPosition = new THREE.Vector3(currentPlayer.getPlayerContainer().position.x, currentPlayer.FlightHeight, currentPlayer.getPlayerContainer().position.z)
-
-    scene.add(currentPlayer.getPlayerCircle())
 }
 
 export const worldNavigationStart = () => {
+
+    bird = new Bird(100, 'testBird', { x: 100, z: 100 })
+    bird.getBirdContainer().position.setX(bird.getBirdContainer().position.x + bird.range)
+    scene.add(bird.getBirdContainer())
+    scene.add(bird.getBirdCircle())
 
     for (const player of allPlayers) {
 
@@ -84,9 +96,14 @@ export const worldNavigationStart = () => {
 
         if (allPlayers[findPlayerIndexByCurrentRound(currentRound)].round === player.round) {
             currentPlayer = player
-            player.showCircle = true
-            scene.add(player.getPlayerCircle())
+            player.startPlayerRound(scene)
+            clickedPosition = new THREE.Vector3(player.getPlayerContainer().position.x, player.FlightHeight, player.getPlayerContainer().position.z)
         }
     }
     animateStart(update)
 }
+
+document.addEventListener('keydown', (e) => {
+    if (e.keyCode === 13)
+        goToNextRound()
+})
