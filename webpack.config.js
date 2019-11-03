@@ -31,6 +31,11 @@ module.exports = {
                 test: /\.mp3$/,
                 loader: 'file-loader',
 
+            },
+            {
+                test: /\.(obj|mtl)$/,
+                loader: 'file-loader'
+
             }
         ]
     },

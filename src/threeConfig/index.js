@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import OrbitControls from 'threejs-orbit-controls'
 import { enableMouseEventsOnScene, disableMouseEventsOnScene } from './mouseEventsOnScene'
+import { loadModel } from './loadModels'
 
 // ----- scene sizes -----
 const sceneWidth = window.innerWidth * 8 / 10
@@ -23,7 +24,7 @@ const scene = new THREE.Scene()
 scene.background = new THREE.Color(0x282c34)
 
 // ----- lights -----
-const light = new THREE.AmbientLight(0xffffff, 0.5)
+const light = new THREE.DirectionalLight(0xffffff, 0.8)
 scene.add(light)
 
 // ----- camera -----
@@ -89,5 +90,6 @@ export {
     animateStart,
     animateStop,
     enableMouseEventsOnScene,
+    loadModel,
     disableMouseEventsOnScene
 }
