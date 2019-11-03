@@ -5,7 +5,10 @@ export class Player {
     constructor(range, modelName) {
 
         this.range = range
+        this.currentRange = range
+        this.showCircle = false
         this.modelName = modelName
+        this.FlightHeight = 20
         this.speed = 3
         this.round = 0
 
@@ -22,7 +25,7 @@ export class Player {
     }
 
     makePlayerRangeCircle = () => {
-        const circleGeometry = new THREE.CircleGeometry(this.range, 320);
+        const circleGeometry = new THREE.CircleGeometry(this.currentRange, 320);
         circleGeometry.rotateX(-Math.PI / 2)
         const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 })
 
@@ -41,11 +44,40 @@ export class Player {
     updateCirclePosition = () => {
         this.circle.position.set(this.playerContainer.position.x, 0.1, this.playerContainer.position.z)
     }
+    decreasePlayerRange = (value) => {
+        this.currentRange -= value
+    }
     updateCircleSize = () => {
-        let newCircleGeometry = new THREE.CircleGeometry(this.range, 320);
+        let newCircleGeometry = new THREE.CircleGeometry(this.currentRange, 320);
         newCircleGeometry.rotateX(-Math.PI / 2)
         this.circle.geometry.dispose()
         this.circle.geometry = newCircleGeometry
+    }
+
+    endPlayerRound = () => {
+        this.currentRange = this.range
+        this.updateCircleSize()
+        this.showCircle = false
+    }
+
+    getPlayerMoveVectors = (element, clickPosition, previousClickedPosition) => {
+        let clickedPosition = previousClickedPosition
+        if (element && element.userData.moveHere === this.round) {
+
+            this.getPlayerModel().rotation.y = Math.atan2(
+                this.getPlayerContainer().position.clone().x - clickedPosition.x,
+                this.getPlayerContainer().position.clone().z - clickedPosition.z
+            )
+
+            clickedPosition = clickPosition
+            clickedPosition.setY(this.FlightHeight)
+            let directionVect = clickedPosition.clone().sub(this.getPlayerContainer().position.clone()).normalize()
+
+            return [
+                clickedPosition,
+                directionVect
+            ]
+        }
     }
 
     getPlayerContainer = () => {
