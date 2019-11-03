@@ -1,13 +1,22 @@
 import * as THREE from 'three'
 
+import treeModel from '../worldElements/models/Tree.1.4.obj'
+import treeModelMtl from '../worldElements/models/Tree.1.4.mtl'
+
 import {
     scene,
     animateStart,
     camera,
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
+    loadModel,
     animateStop
 } from '../threeConfig'
+
+let model = new THREE.Object3D()
+loadModel(treeModel, treeModelMtl, model)
+scene.add(model)
+model.scale.set(5, 5, 5)
 
 const speed = 3
 let distance = 0
