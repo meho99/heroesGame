@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import OrbitControls from 'threejs-orbit-controls'
-import { enableMouseEventsOnScene, disableMouseEventsOnScene } from './mouseEventsOnScene'
+import { enableMouseEventsOnScene, disableMouseEventsOnScene, listenersStart, listenersName } from './mouseEventsOnScene'
 import { loadModel } from './loadModels'
 
 // ----- scene sizes -----
@@ -36,7 +36,7 @@ scene.add(camera)
 // ----- camera control -----
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enabled = true
-controls.maxDistance = 500
+controls.maxDistance = 800
 controls.minDistance = 0
 
 // ----- osie -----
@@ -90,6 +90,8 @@ export {
     animateStart,
     animateStop,
     enableMouseEventsOnScene,
+    listenersStart,
+    listenersName,
     loadModel,
     disableMouseEventsOnScene
 }

@@ -8,9 +8,23 @@ import {
     sceneHeight
 } from './index'
 
-let clickBlock = true
+const listenersName = {
+    CLICK: 'click',
+    DBCLICK: 'dblclick',
+    KEYDOWN: 'keydown'
+}
 
-const getObjectAfterClick = (e) => {
+const blocks = Object.keys(listenersName).reduce((obj, item) => {
+    obj[item] = true
+    return obj
+}, {})
+
+const actualFunctions = Object.keys(listenersName).reduce((obj, item) => {
+    obj[item] = () => { }
+    return obj
+}, {})
+
+const getData = (e) => {
     let vector = new THREE.Vector3()
     e.preventDefault();
 
@@ -27,27 +41,35 @@ const getObjectAfterClick = (e) => {
     var intersects = raycaster.intersectObjects(scene.children)
 
     if (intersects.length > 0) {
-        return {element: intersects[0].object, clickPosition: intersects[0].point}
+        return { element: intersects[0].object, clickPosition: intersects[0].point, e }
     }
-    else return {}
+    else return { e }
 }
 
-const clickFunction = (e, afterClickFuntion) => {
-    if (!clickBlock) {
-        afterClickFuntion(getObjectAfterClick(e))
-    }
+const listenerFunc = (e, name) => {
+    !blocks[name] && actualFunctions[name](getData(e))
 }
 
-const enableMouseEventsOnScene = (config = { mouseDown: true }, afterClickFuntion) => {
-    clickBlock = false
-    config.mouseDown && container.addEventListener("mousedown", (e) => { clickFunction(e, afterClickFuntion) }, true)
+const enableMouseEventsOnScene = (name, func) => {
+    actualFunctions[name] = func
+    blocks[name] = false
 }
 
-const disableMouseEventsOnScene = (config = { mouseDown: true }) => {
-    if (config.mouseDown) clickBlock = true
+const disableMouseEventsOnScene = (name) => {
+    blocks[name] = true
 }
+
+const listenersStart = () => {
+    container.addEventListener([listenersName.CLICK], (e) => { listenerFunc(e, [listenersName.CLICK]) })
+    container.addEventListener([listenersName.DBCLICK], (e) => { listenerFunc(e, [listenersName.DBCLICK]) })
+
+    document.addEventListener([listenersName.KEYDOWN], (e) => { listenerFunc(e, [listenersName.KEYDOWN]) })
+}
+
 
 export {
     enableMouseEventsOnScene,
-    disableMouseEventsOnScene
+    disableMouseEventsOnScene,
+    listenersStart,
+    listenersName
 }
