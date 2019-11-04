@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import { playersModels } from './playersModels'
+import { idGenerator } from '../commonFunctions'
+
 
 export class Player {
     constructor(range, modelName, startPosition) {
@@ -11,6 +13,8 @@ export class Player {
         this.FlightHeight = 20
         this.speed = 3
         this.round = 0
+
+        this.id = idGenerator()
 
         this.findPlayerModel(startPosition)
     }

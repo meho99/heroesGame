@@ -1,0 +1,1 @@
+export const idGenerator = () => Math.floor(new Date().valueOf() * Math.random())

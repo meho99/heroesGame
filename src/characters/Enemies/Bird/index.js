@@ -1,10 +1,12 @@
 import * as THREE from 'three'
 import { birdModels } from './birdModels'
+import { idGenerator } from '../../commonFunctions'
 
 export class Bird {
     constructor(range, modelName, startPosition) {
 
         this.range = range
+        this.id = idGenerator()
         this.modelName = modelName
         this.FlightHeight = 20
         this.speed = 1
@@ -31,6 +33,11 @@ export class Bird {
         var circleMaterial = new THREE.MeshBasicMaterial({ color: 0xaaff66, transparent: true, opacity: 0.2 })
 
         this.circle = new THREE.Mesh(circleGeometry, circleMaterial)
+
+        this.circle.userData= {
+            id: this.id,
+            type: 'bird'
+        }
         this.updateCirclePosition()
         this.birdContainer.position.setX(this.birdContainer.position.x + this.range)
     }
@@ -61,7 +68,7 @@ export class Bird {
             this.directionVect = this.getBirdDirectionVector(this.circle)
         }
         if (this.birdContainer.position.clone().distanceTo(playerContainer.position.clone()) <= this.birdModel.geometry.parameters.width / 2 + playerModel.geometry.parameters.width) {
-            console.log("złpany")
+            console.log("złpany", this.id)
         }
         this.birdContainer.translateOnAxis(this.directionVect, this.speed)
     }
