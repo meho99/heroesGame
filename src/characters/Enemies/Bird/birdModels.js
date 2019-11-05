@@ -4,7 +4,7 @@ export const birdModels = [
     {
         id: 0,
         name: 'testBird',
-        geometry: new THREE.BoxGeometry(8, 8, 8),
+        geometry: new THREE.BoxGeometry(3, 3, 3),
         material: new THREE.MeshBasicMaterial({ color: 0x002233 })
     }
 ]

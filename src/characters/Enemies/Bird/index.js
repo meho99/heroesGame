@@ -8,8 +8,8 @@ export class Bird {
         this.range = range
         this.id = idGenerator()
         this.modelName = modelName
-        this.FlightHeight = 20
-        this.speed = 1
+        this.FlightHeight = 10
+        this.speed = 0.6
         this.directionVect = new THREE.Vector3(0, 0, 0)
 
         this.findBirdModel(startPosition)

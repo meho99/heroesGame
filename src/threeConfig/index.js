@@ -28,12 +28,14 @@ export const raycaster = new THREE.Raycaster()
 
 export let currentScene
 export let currentCamera
-let currentCameraControls
+export let currentCameraControls
 
 export const makeInitialScene = (light, camera, controls) => {
     // ----- scene -----
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color(0x282c34)
+    scene.background = new THREE.Color(0x00ffff)
+
+    scene.fog = new THREE.Fog(0x00ffff, 960, 1000)
 
     // ----- lights -----
     if (!light) {
@@ -47,7 +49,7 @@ export const makeInitialScene = (light, camera, controls) => {
     let defaultCamera
     if (!camera) {
         defaultCamera = new THREE.PerspectiveCamera(45, sceneWidth / sceneHeight, 1, 1000)
-        defaultCamera.position.set(100, 100, 100)
+        defaultCamera.position.set(100, 250, 100)
         defaultCamera.lookAt(0, 0, 0)
         scene.add(defaultCamera)
     } else {
@@ -58,8 +60,16 @@ export const makeInitialScene = (light, camera, controls) => {
     if (!controls) {
         const defaultControls = new OrbitControls(camera || defaultCamera, renderer.domElement)
         defaultControls.enabled = true
-        defaultControls.maxDistance = 800
-        defaultControls.minDistance = 0
+        defaultControls.enableDamping = true
+        defaultControls.rotateSpeed = 0.2
+        defaultControls.maxDistance = 300
+        defaultControls.minDistance = 200
+        defaultControls.maxPolarAngle = Math.PI / 3
+        defaultControls.mouseButtons = {
+            NONE: THREE.MOUSE.ROTATE,
+            LEFT: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.PAN
+        }
         currentCameraControls = defaultControls
     } else {
         currentCameraControls = controls

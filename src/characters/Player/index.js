@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { playersModels } from './playersModels'
 import { idGenerator } from '../commonFunctions'
 
+import { currentCameraControls } from '../../threeConfig'
 
 export class Player {
     constructor(range, modelName, startPosition) {
@@ -10,8 +11,8 @@ export class Player {
         this.currentRange = range
         this.showCircle = false
         this.modelName = modelName
-        this.FlightHeight = 20
-        this.speed = 3
+        this.FlightHeight = 10
+        this.speed = 2
         this.round = 0
 
         this.id = idGenerator()
@@ -46,7 +47,7 @@ export class Player {
         this.playerContainer.position.set(x, y, z)
     }
     updateCirclePosition = () => {
-        this.circle.position.set(this.playerContainer.position.x, 0.5, this.playerContainer.position.z)
+        this.circle.position.set(this.playerContainer.position.x, 0.3, this.playerContainer.position.z)
     }
     decreasePlayerRange = (value) => {
         this.currentRange -= value
@@ -65,8 +66,13 @@ export class Player {
     startPlayerRound = (scene) => {
         this.showCircle = true
         this.currentRange = this.range
-        this.updateCircleSize()
         if (scene) scene.add(this.circle)
+        this.updateCircleSize()
+        this.moveCameraToPlayer()
+    }
+
+    moveCameraToPlayer = () => {
+        currentCameraControls.target.copy(this.playerContainer.position)
     }
 
     getPlayerMoveVectors = (element, clickPosition, previousClickedPosition) => {

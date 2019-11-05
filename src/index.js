@@ -15,12 +15,12 @@ setCurrentScene(worldNavigationScene, worldNavigationCamera)
 animateStart()
 listenersStart()
 
-addPlayer(new Player(200, 'testCube1', { x: -150, z: 150 }))
-addPlayer(new Player(120, 'testCube1', { x: 80, z: 10 }))
-addPlayer(new Player(120, 'testCube1', { x: 160, z: -160 }))
+addPlayer(new Player(100, 'testCube1', { x: -100, z: 100 }))
+addPlayer(new Player(80, 'testCube1', { x: 80, z: 10 }))
+addPlayer(new Player(70, 'testCube1', { x: 120, z: -120 }))
 
-addBird(new Bird(50, 'testBird', { x: 150, z: 150 }))
-addBird(new Bird(150, 'testBird', { x: -150, z: -150 }))
+addBird(new Bird(50, 'testBird', { x: 100, z: 150 }))
+addBird(new Bird(100, 'testBird', { x: -100, z: -150 }))
 
 
 worldNavigationStart()
