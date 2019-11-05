@@ -2,8 +2,8 @@ import * as THREE from 'three'
 import {
     container,
     raycaster,
-    camera,
-    scene,
+    currentCamera as camera,
+    currentScene as scene,
     sceneWidth,
     sceneHeight
 } from './index'

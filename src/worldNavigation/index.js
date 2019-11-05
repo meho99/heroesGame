@@ -1,14 +1,14 @@
 import * as THREE from 'three'
 
 import {
-    scene,
-    animateStart,
+    animateUpdate,
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
     listenersName,
     animateStop
 } from '../threeConfig'
 
+import { scene } from './scene'
 
 import {
     allPlayers,
@@ -26,11 +26,15 @@ let directionVect = new THREE.Vector3(0, 0, 0)
 let currentPlayer = {}
 
 const movePlayer = ({ element, clickPosition }) => {
-    [clickedPosition, directionVect] = allPlayers[findPlayerIndexByCurrentRound(currentRound)].getPlayerMoveVectors(element, clickPosition, clickedPosition) || [clickedPosition, directionVect]
+    if (element) {
+        [clickedPosition, directionVect] = allPlayers[findPlayerIndexByCurrentRound(currentRound)].getPlayerMoveVectors(element, clickPosition, clickedPosition) || [clickedPosition, directionVect]
+    }
 }
 
 const getClickedElement = ({ element }) => {
-    console.log(element.userData)
+    if (element) {
+        console.log(element.userData)
+    }
 }
 enableMouseEventsOnScene(listenersName.CLICK, getClickedElement)
 
@@ -104,12 +108,20 @@ export const worldNavigationStart = () => {
             clickedPosition = new THREE.Vector3(player.getPlayerContainer().position.x, player.FlightHeight, player.getPlayerContainer().position.z)
         }
     }
+    animateUpdate(update)
 
-    enableMouseEventsOnScene(listenersName.KEYDOWN, ({ e }) => {
-        if (e.keyCode === 13) {
-            goToNextRound()
-        }
-    })
-
-    animateStart(update)
+    enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
 }
+
+export const worldNavigationRestart = () => {
+
+    animateUpdate(update)
+    enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
+
+}
+
+enableMouseEventsOnScene(listenersName.KEYDOWN, ({ e }) => {
+    if (e.keyCode === 13) {
+        goToNextRound()
+    }
+})

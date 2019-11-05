@@ -1,14 +1,21 @@
 import * as THREE from 'three'
 import OrbitControls from 'threejs-orbit-controls'
-import { enableMouseEventsOnScene, disableMouseEventsOnScene, listenersStart, listenersName } from './mouseEventsOnScene'
-import { loadModel } from './loadModels'
+
+export { loadModel } from './loadModels'
+
+export {
+    enableMouseEventsOnScene,
+    disableMouseEventsOnScene,
+    listenersStart,
+    listenersName
+} from './mouseEventsOnScene'
 
 // ----- scene sizes -----
-const sceneWidth = window.innerWidth * 8 / 10
-const sceneHeight = window.innerHeight
+export const sceneWidth = window.innerWidth * 8 / 10
+export const sceneHeight = window.innerHeight
 
 // ----- DOM Element -----
-const container = document.getElementById('mainBoard')
+export const container = document.getElementById('mainBoard')
 
 // ----- renderer -----
 const renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -17,81 +24,91 @@ renderer.setSize(sceneWidth, sceneHeight)
 container.appendChild(renderer.domElement)
 
 // ----- raycaster -----
-const raycaster = new THREE.Raycaster()
+export const raycaster = new THREE.Raycaster()
 
-// ----- scene -----
-const scene = new THREE.Scene()
-scene.background = new THREE.Color(0x282c34)
+export let currentScene
+export let currentCamera
+let currentCameraControls
 
-// ----- lights -----
-const light = new THREE.DirectionalLight(0xffffff, 0.8)
-scene.add(light)
+export const makeInitialScene = (light, camera, controls) => {
+    // ----- scene -----
+    const scene = new THREE.Scene()
+    scene.background = new THREE.Color(0x282c34)
 
-// ----- camera -----
-const camera = new THREE.PerspectiveCamera(45, sceneWidth / sceneHeight, 1, 1000)
-camera.position.set(100, 100, 100)
-camera.lookAt(0, 0, 0)
-scene.add(camera)
+    // ----- lights -----
+    if (!light) {
+        const defaultLight = new THREE.DirectionalLight(0xffffff, 0.8)
+        scene.add(defaultLight)
+    } else {
+        scene.add(light)
+    }
 
-// ----- camera control -----
-const controls = new OrbitControls(camera, renderer.domElement)
-controls.enabled = true
-controls.maxDistance = 800
-controls.minDistance = 0
+    // ----- camera -----
+    let defaultCamera
+    if (!camera) {
+        defaultCamera = new THREE.PerspectiveCamera(45, sceneWidth / sceneHeight, 1, 1000)
+        defaultCamera.position.set(100, 100, 100)
+        defaultCamera.lookAt(0, 0, 0)
+        scene.add(defaultCamera)
+    } else {
+        scene.add(camera)
+    }
 
-// ----- osie -----
-//const axesHelper = new THREE.AxesHelper(500)
-//scene.add(axesHelper)
+    // ----- camera control -----
+    if (!controls) {
+        const defaultControls = new OrbitControls(camera || defaultCamera, renderer.domElement)
+        defaultControls.enabled = true
+        defaultControls.maxDistance = 800
+        defaultControls.minDistance = 0
+        currentCameraControls = defaultControls
+    } else {
+        currentCameraControls = controls
+    }
+
+    return {
+        scene,
+        camera: camera ? camera : defaultCamera
+    }
+}
+
+export const setCurrentScene = (scene, camera) => {
+    currentScene = scene
+    currentCamera = camera
+}
 
 // ----- world rendering -----
 
 let frameId
-
-const renderScene = () => {
+const renderScene = (scene, camera) => {
     renderer.render(scene, camera)
 }
 
-const animate = (renderFunction) => {
+let renderFunction = () => { }
 
-    if (camera.position.y < 0) camera.position.y = 0
-    controls.update()
+const animate = () => {
+
+    if (currentCamera.position.y < 0) currentCamera.position.y = 0
+    currentCameraControls.update()
     renderFunction()
-    renderScene()
-    window.requestAnimationFrame(() => { animate(renderFunction) })
+    renderScene(currentScene, currentCamera)
+    window.requestAnimationFrame(animate)
 }
 
-const animateStart = (renderFunction = () => { }) => {
-
-    const customAnimate = () => { animate(renderFunction) }
-
-    if (!frameId) {
-        frameId = window.requestAnimationFrame(customAnimate)
-    }
+export const animateUpdate = (render) => {
+    renderFunction = render
 }
 
-const clearScene = () => {
+export const clearScene = (scene) => {
     while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
     }
 }
 
-const animateStop = () => {
-    cancelAnimationFrame(frameId)
-    clearScene()
+export const animateStart = () => {
+    if (!frameId) {
+        frameId = window.requestAnimationFrame(animate)
+    }
 }
-
-export {
-    camera,
-    sceneWidth,
-    sceneHeight,
-    container,
-    scene,
-    raycaster,
-    animateStart,
-    animateStop,
-    enableMouseEventsOnScene,
-    listenersStart,
-    listenersName,
-    loadModel,
-    disableMouseEventsOnScene
+export const animateStop = () => {
+    cancelAnimationFrame(frameId)
 }
