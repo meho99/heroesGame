@@ -55,6 +55,8 @@ const update = () => {
             scene.remove(currentPlayer.getPlayerCircle())
             disableMouseEventsOnScene(listenersName.DBCLICK)
         }
+
+        currentPlayer.moveCameraToPlayer()
         currentPlayer.getPlayerContainer().translateOnAxis(directionVect, currentPlayer.speed)
 
     } else {
@@ -72,7 +74,7 @@ const update = () => {
         bird.moveBird(currentPlayer.getPlayerContainer(), currentPlayer.getPlayerModel())
     }
 }
-var boardGeometry = new THREE.PlaneGeometry(1000, 1000);
+var boardGeometry = new THREE.PlaneGeometry(10000, 10000);
 var boardMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
 var board = new THREE.Mesh(boardGeometry, boardMaterial);
 boardGeometry.rotateX(-Math.PI / 2)
