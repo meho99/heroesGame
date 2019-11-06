@@ -1,7 +1,8 @@
 import * as THREE from 'three'
 
 import { playersModels } from './playersModels'
-import { idGenerator } from '../commonFunctions'
+import { idGenerator } from '../../commonFunctions'
+import { Army } from '../Army'
 
 import { cameraControls } from '../../worldNavigation/scene'
 
@@ -15,6 +16,8 @@ export class Player {
         this.FlightHeight = 10
         this.speed = 2
         this.round = 0
+
+        this.army = new Army()
 
         this.id = idGenerator()
 

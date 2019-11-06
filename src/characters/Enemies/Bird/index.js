@@ -1,7 +1,11 @@
 import * as THREE from 'three'
+
 import { birdModels } from './birdModels'
 import { createWindow } from '../../../threeConfig'
-import { idGenerator } from '../../commonFunctions'
+import { idGenerator } from '../../../commonFunctions'
+import { battleStart } from '../../../battle'
+
+import { Army } from '../../Army'
 
 export class Bird {
     constructor(range, modelName, startPosition) {
@@ -12,6 +16,8 @@ export class Bird {
         this.FlightHeight = 10
         this.speed = 0.6
         this.directionVect = new THREE.Vector3(0, 0, 0)
+
+        this.army = new Army()
 
         this.findBirdModel(startPosition)
         this.makeBirdRangeCircle()
@@ -94,8 +100,8 @@ export class Bird {
         return targetPosition.sub(this.birdContainer.position.clone()).normalize()
     }
 
-    moveBird = (playerContainer, playerModel) => {
-
+    moveBird = (playerContainer, player) => {
+        const playerModel = player.getPlayerModel()
         if (this.circle.position.clone().distanceTo(playerContainer.position.clone()) < this.range) {
             this.directionVect = this.getBirdDirectionVector(playerContainer)
         }
@@ -103,6 +109,7 @@ export class Bird {
             this.directionVect = this.getBirdDirectionVector(this.circle)
         }
         if (this.birdContainer.position.clone().distanceTo(playerContainer.position.clone()) <= this.birdModel.geometry.parameters.width / 2 + playerModel.geometry.parameters.width) {
+            battleStart(player, this)
             this.addWindow('fight')
 
         }
