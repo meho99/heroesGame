@@ -1,8 +1,9 @@
 import * as THREE from 'three'
+
 import { playersModels } from './playersModels'
 import { idGenerator } from '../commonFunctions'
 
-import { currentCameraControls } from '../../threeConfig'
+import { cameraControls } from '../../worldNavigation/scene'
 
 export class Player {
     constructor(range, modelName, startPosition) {
@@ -72,7 +73,7 @@ export class Player {
     }
 
     moveCameraToPlayer = () => {
-        currentCameraControls.target.copy(this.playerContainer.position)
+        cameraControls.target.copy(this.playerContainer.position)
     }
 
     getPlayerMoveVectors = (element, clickPosition, previousClickedPosition) => {

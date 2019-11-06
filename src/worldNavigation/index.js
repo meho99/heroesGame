@@ -5,10 +5,10 @@ import {
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
     listenersName,
-    animateStop
+    setCurrentScene,
 } from '../threeConfig'
 
-import { scene } from './scene'
+import { scene, camera, cameraControls } from './scene'
 
 import {
     allPlayers,
@@ -73,14 +73,9 @@ const update = () => {
     }
 
     for (const bird of allBirds) {
-        bird.moveBird(currentPlayer.getPlayerContainer(), currentPlayer.getPlayerModel())
+        bird.moveBird(currentPlayer.getPlayerContainer(), currentPlayer)
     }
 }
-var boardGeometry = new THREE.PlaneGeometry(10000, 10000);
-var boardMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-var board = new THREE.Mesh(boardGeometry, boardMaterial);
-boardGeometry.rotateX(-Math.PI / 2)
-scene.add(board);
 
 const goToNextRound = () => {
     currentPlayer.endPlayerRound(scene)
@@ -95,6 +90,7 @@ const goToNextRound = () => {
 }
 
 export const worldNavigationStart = () => {
+    setCurrentScene(scene, camera, cameraControls)
 
     for (const bird of allBirds) {
         scene.add(bird.getBirdContainer())
@@ -118,6 +114,7 @@ export const worldNavigationStart = () => {
 }
 
 export const worldNavigationRestart = () => {
+    setCurrentScene(scene, camera, cameraControls)
 
     animateUpdate(update)
     enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
