@@ -15,7 +15,7 @@ import {
     findPlayerIndexByCurrentRound
 } from '../characters/Player/allPlayers'
 
-import { allBirds } from '../characters/Enemies/Bird/allBirds';
+import { allBirds, findBirdIndexById } from '../characters/Enemies/Bird/allBirds'
 
 let currentRound = 1
 
@@ -33,7 +33,9 @@ const movePlayer = ({ element, clickPosition }) => {
 
 const getClickedElement = ({ element }) => {
     if (element) {
-        console.log(element.userData)
+        if (element.userData && element.userData.type === 'bird') {
+            allBirds[findBirdIndexById(element.userData.id)].addWindow('army')
+        }
     }
 }
 enableMouseEventsOnScene(listenersName.CLICK, getClickedElement)
