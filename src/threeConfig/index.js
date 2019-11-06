@@ -10,6 +10,8 @@ export {
     listenersName
 } from './mouseEventsOnScene'
 
+export { createWindow } from './informationWindows'
+
 // ----- scene sizes -----
 export const sceneWidth = window.innerWidth * 8 / 10
 export const sceneHeight = window.innerHeight

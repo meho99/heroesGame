@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { birdModels } from './birdModels'
+import { createWindow } from '../../../threeConfig'
 import { idGenerator } from '../../commonFunctions'
 
 export class Bird {
@@ -14,15 +15,16 @@ export class Bird {
 
         this.findBirdModel(startPosition)
         this.makeBirdRangeCircle()
+        this.makeInformationWindows()
     }
-    findBirdModel = ({x, z}) => {
+
+    findBirdModel = ({ x, z }) => {
         this.modelDetails = birdModels.find(model => model.name = this.modelName)
 
         this.birdContainer = new THREE.Object3D()
         this.birdModel = new THREE.Mesh(this.modelDetails.geometry, this.modelDetails.material)
 
         this.birdContainer.add(this.birdModel)
-
         this.birdContainer.position.set(x, this.FlightHeight, z)
     }
 
@@ -34,7 +36,7 @@ export class Bird {
 
         this.circle = new THREE.Mesh(circleGeometry, circleMaterial)
 
-        this.circle.userData= {
+        this.circle.userData = {
             id: this.id,
             type: 'bird'
         }
@@ -42,9 +44,42 @@ export class Bird {
         this.birdContainer.position.setX(this.birdContainer.position.x + this.range)
     }
 
+    makeInformationWindows = () => {
+        const fightInfoElement = createWindow(
+            'Fight',
+            `You have been attacked by group of birds`,
+            `FIGHT`,
+            () => {
+                this.removeWindow('fight')
+            }
+        )
+
+        const armyInfoElement = createWindow(
+            'Bird',
+            `dangerousity level: ${'jakis level'} </br>
+            Tutaj bedzie mniej wiecej wypisana armia czy cos`,
+            `OK`,
+            () => {
+                this.removeWindow('army')
+            }
+        )
+
+        this.informationWindows = {
+            fight: {
+                active: false,
+                element: fightInfoElement
+            },
+            army: {
+                active: false,
+                element: armyInfoElement
+            }
+        }
+    }
+
     updatBirdPosition = ({ x, y, z }) => {
         this.birdContainer.position.set(x, y, z)
     }
+
     updateCirclePosition = () => {
         this.circle.position.set(this.birdContainer.position.x, 0.1, this.birdContainer.position.z)
     }
@@ -68,9 +103,22 @@ export class Bird {
             this.directionVect = this.getBirdDirectionVector(this.circle)
         }
         if (this.birdContainer.position.clone().distanceTo(playerContainer.position.clone()) <= this.birdModel.geometry.parameters.width / 2 + playerModel.geometry.parameters.width) {
-            console.log("złpany", this.id)
+            this.addWindow('fight')
+
         }
         this.birdContainer.translateOnAxis(this.directionVect, this.speed)
+    }
+
+    addWindow = (name) => {
+        if (!this.informationWindows[name].active) {
+            document.body.appendChild(this.informationWindows[name].element)
+            this.informationWindows[name].active = true
+        }
+    }
+
+    removeWindow = (name) => {
+        this.informationWindows[name].element.parentNode.removeChild(this.informationWindows[name].element)
+        this.informationWindows[name].active = false
     }
 
     getBirdContainer = () => {
