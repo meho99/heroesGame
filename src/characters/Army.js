@@ -8,22 +8,14 @@ export class Army {
     }
 
     addWarriors = (type, number) => {
-        const newWarriors = []
 
-        for (let i = 0; i < number; i++) {
-            newWarriors.push(newWarrior(type, idGenerator()))
-        }
+        const prevWarriors = this.warriors[type] ? this.warriors[type] : { ...newWarrior(type, idGenerator()), quantity: 0 }
 
-        const prevWarriors = this.warriors[type] ? this.warriors[type] : { id: idGenerator(), units: [] }
-
-        this.warriors[type] = { ...prevWarriors, units: [...prevWarriors.units.concat(newWarriors)] }
+        this.warriors[type] = { ...prevWarriors, quantity: prevWarriors.quantity + number, currentHealth: (prevWarriors.quantity + number) * prevWarriors.maxHealth }
     }
 
-    checkIfWarriorBelongsToArmy = (id) => {
+    checkIfWarriorBelongsToArmy = (id) =>
         this.warriors.find(warriorsGroup =>
-            warriorsGroup.find(warrior =>
-                warrior.id === id
-            )
+            warriorsGroup.id === id
         )
-    }
 }

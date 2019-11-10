@@ -7,7 +7,8 @@ export {
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
     listenersStart,
-    listenersName
+    listenersName,
+    setGroupToClick
 } from './mouseEventsOnScene'
 
 export { createWindow } from './informationWindows'

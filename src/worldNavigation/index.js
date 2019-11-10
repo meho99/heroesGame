@@ -5,6 +5,7 @@ import {
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
     listenersName,
+    setGroupToClick,
     setCurrentScene,
 } from '../threeConfig'
 
@@ -91,6 +92,7 @@ const goToNextRound = () => {
 
 export const worldNavigationStart = () => {
     setCurrentScene(scene, camera, cameraControls)
+    setGroupToClick(scene)
 
     for (const bird of allBirds) {
         scene.add(bird.getBirdContainer())
@@ -111,18 +113,21 @@ export const worldNavigationStart = () => {
     animateUpdate(update)
 
     enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
+    enableMouseEventsOnScene(listenersName.KEYDOWN, ({ e }) => {
+        if (e.keyCode === 13) {
+            goToNextRound()
+        }
+    })
 }
 
 export const worldNavigationRestart = () => {
+    setGroupToClick(scene)
     setCurrentScene(scene, camera, cameraControls)
-
     animateUpdate(update)
     enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
-
+    enableMouseEventsOnScene(listenersName.KEYDOWN, ({ e }) => {
+        if (e.keyCode === 13) {
+            goToNextRound()
+        }
+    })
 }
-
-enableMouseEventsOnScene(listenersName.KEYDOWN, ({ e }) => {
-    if (e.keyCode === 13) {
-        goToNextRound()
-    }
-})
