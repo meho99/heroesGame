@@ -8,6 +8,7 @@ import {
     sceneHeight
 } from './index'
 
+
 const listenersName = {
     CLICK: 'click',
     DBCLICK: 'dblclick',
@@ -24,6 +25,12 @@ const actualFunctions = Object.keys(listenersName).reduce((obj, item) => {
     return obj
 }, {})
 
+let groupToClick
+
+const setGroupToClick = (group) => {
+    groupToClick = group
+}
+
 const getData = (e) => {
     let vector = new THREE.Vector3()
     e.preventDefault();
@@ -37,8 +44,7 @@ const getData = (e) => {
     vector.unproject(camera);
 
     raycaster.set(camera.position, vector.sub(camera.position).normalize())
-
-    var intersects = raycaster.intersectObjects(scene.children)
+    var intersects = raycaster.intersectObjects(groupToClick.children)
 
     if (intersects.length > 0) {
         return { element: intersects[0].object, clickPosition: intersects[0].point, e }
@@ -70,6 +76,7 @@ const listenersStart = () => {
 export {
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
+    setGroupToClick,
     listenersStart,
     listenersName
 }

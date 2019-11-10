@@ -7,7 +7,8 @@ export {
     enableMouseEventsOnScene,
     disableMouseEventsOnScene,
     listenersStart,
-    listenersName
+    listenersName,
+    setGroupToClick
 } from './mouseEventsOnScene'
 
 export { createWindow } from './informationWindows'
@@ -59,8 +60,9 @@ export const makeInitialScene = (light, camera, controls) => {
     }
 
     // ----- camera control -----
+    let defaultControls
     if (!controls) {
-        const defaultControls = new OrbitControls(camera || defaultCamera, renderer.domElement)
+        defaultControls = new OrbitControls(camera || defaultCamera, renderer.domElement)
         defaultControls.enabled = true
         defaultControls.enableDamping = true
         defaultControls.rotateSpeed = 0.2
@@ -79,13 +81,15 @@ export const makeInitialScene = (light, camera, controls) => {
 
     return {
         scene,
-        camera: camera ? camera : defaultCamera
+        camera: camera ? camera : defaultCamera,
+        cameraControls: defaultControls
     }
 }
 
-export const setCurrentScene = (scene, camera) => {
+export const setCurrentScene = (scene, camera, cameraControls) => {
     currentScene = scene
     currentCamera = camera
+    currentCameraControls = cameraControls
 }
 
 // ----- world rendering -----
