@@ -17,6 +17,7 @@ import {
 } from '../characters/Player/allPlayers'
 
 import { allBirds, findBirdIndexById } from '../characters/Enemies/Bird/allBirds'
+import { allStaticEnemies, findStaticEnemyIndexById } from '../characters/Enemies/Static/allStaticEnemies'
 
 let currentRound = 1
 
@@ -36,6 +37,10 @@ const getClickedElement = ({ element }) => {
     if (element) {
         if (element.userData && element.userData.type === 'bird') {
             allBirds[findBirdIndexById(element.userData.id)].addWindow('army')
+        }
+
+        if (element.userData && element.userData.type === 'staticEnemy') {
+            allStaticEnemies[findStaticEnemyIndexById(element.userData.id)].addWindow('army')
         }
     }
 }
@@ -76,6 +81,9 @@ const update = () => {
     for (const bird of allBirds) {
         bird.moveBird(currentPlayer.getPlayerContainer(), currentPlayer)
     }
+    for (const staticEnemy of allStaticEnemies) {
+        staticEnemy.shouldAttack(currentPlayer.getPlayerContainer(), currentPlayer)
+    }
 }
 
 const goToNextRound = () => {
@@ -97,6 +105,11 @@ export const worldNavigationStart = () => {
     for (const bird of allBirds) {
         scene.add(bird.getBirdContainer())
         scene.add(bird.getBirdCircle())
+    }
+
+    for (const StaticEnemy of allStaticEnemies) {
+        scene.add(StaticEnemy.getStaticEnemyContainer())
+        scene.add(StaticEnemy.getStaticEnemyCircle())
     }
 
     for (const player of allPlayers) {
