@@ -1,12 +1,24 @@
 import * as THREE from 'three'
+import { SpriteText2D, textAlign } from 'three-text2d'
+import { textsGroup } from './board'
+import { findWarriorById } from './battleControl'
+
 
 import {
     onFieldTypes,
     fieldWidth,
     startFieldX,
     startFieldY,
+    playersColors,
     fieldColors
 } from './constants'
+
+const textInit = (text, color, x, y, z) => {
+    var sprite = new SpriteText2D(text, { align: textAlign.center, font: '50px Arial', fillStyle: color, antialias: true })
+    sprite.scale.set(0.08, 0.08, 0.08)
+    sprite.position.set(startFieldX + fieldWidth * x, y, startFieldY + fieldWidth * z)
+    return sprite;
+}
 
 const emptyFieldGeometry = new THREE.PlaneGeometry(fieldWidth, fieldWidth)
 emptyFieldGeometry.rotateX(-Math.PI / 2)
@@ -38,10 +50,12 @@ export const makeBoardField = (type, id, position) => {
             field = emptyField(position, fieldColors.WHITE)
             break
         case onFieldTypes.ALLY:
-            field = emptyField(position, fieldColors.YELLOW)
+            textsGroup.add(textInit(`${findWarriorById(id).quantity} x ${findWarriorById(id).name}`, playersColors[onFieldTypes.ALLY], position.x, 20, position.y))
+            field = emptyField(position, playersColors[onFieldTypes.ALLY])
             break
         case onFieldTypes.ENEMY:
-            field = emptyField(position, fieldColors.GREEN)
+            textsGroup.add(textInit(`${findWarriorById(id).quantity} x ${findWarriorById(id).name}`, playersColors[onFieldTypes.ENEMY], position.x, 20, position.y))
+            field = emptyField(position, playersColors[onFieldTypes.ENEMY])
             break
         case onFieldTypes.AVAILABLE_WALK:
             field = availableWalkField(position, fieldColors.GREEN, { type, id, position })

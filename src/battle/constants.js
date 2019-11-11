@@ -21,6 +21,11 @@ export const onFieldTypes = {
     AVAILABLE_SHOOT: 'availableShoot'
 }
 
+export const playersColors = {
+    [onFieldTypes.ENEMY]: 'red',
+    [onFieldTypes.ALLY]: 'blue'
+}
+
 export const emptyFieldData = {
     type: onFieldTypes.EMPTY,
     id: 0
