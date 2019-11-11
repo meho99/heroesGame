@@ -1,7 +1,7 @@
 import { sceneWidth, sceneHeight } from './'
 
 export const createWindow = (header, text, button, onClickAction, styleOverrides = {}) => {
-    const { containerStyles = { dupa: 'kupa' }, headerStyles, textStyles, buttonStyles } = styleOverrides
+    const { containerStyles, headerStyles, textStyles, buttonStyles } = styleOverrides
 
     const windowContainer = document.createElement('div')
     const windowContainerStyles = {

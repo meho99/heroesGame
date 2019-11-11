@@ -17,6 +17,9 @@ export class StaticEnemy {
         this.speed = 0.6
         this.directionVect = new THREE.Vector3(0, 0, 0)
 
+        this.type = 'enemy'
+        this.name = modelName
+
         this.army = new Army()
 
         this.findStaticEnemyModel(startPosition)

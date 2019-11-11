@@ -12,7 +12,8 @@ import {
 const listenersName = {
     CLICK: 'click',
     DBCLICK: 'dblclick',
-    KEYDOWN: 'keydown'
+    KEYDOWN: 'keydown',
+    RIGHTCLICK: 'mousedown'
 }
 
 const blocks = Object.keys(listenersName).reduce((obj, item) => {
@@ -70,6 +71,12 @@ const listenersStart = () => {
     container.addEventListener([listenersName.DBCLICK], (e) => { listenerFunc(e, [listenersName.DBCLICK]) })
 
     document.addEventListener([listenersName.KEYDOWN], (e) => { listenerFunc(e, [listenersName.KEYDOWN]) })
+    document.addEventListener(listenersName.RIGHTCLICK, (e) => {
+        if (e.which === 3) {
+            e.preventDefault()
+            listenerFunc(e, [listenersName.RIGHTCLICK])
+        }
+    })
 }
 
 

@@ -1,4 +1,4 @@
-import { onFieldTypes, emptyFieldData, boardSize } from './constants'
+import { onFieldTypes, emptyFieldData, boardSize, playersColors } from './constants'
 import { randomNumber } from '../commonFunctions'
 import { enableMouseEventsOnScene, listenersName } from '../threeConfig'
 
@@ -101,12 +101,11 @@ export const getCurrentWarrior = () => {
     return allWarriors[warriorIndex]
 }
 
-const findWarriorById = (id) => {
+export const findWarriorById = (id) => {
     return allWarriors.find(warrior => warrior.id === id)
 }
 
 const moveCurrentPlayerToPosition = (position) => {
-    console.log('ff')
     const warrior = getCurrentWarrior()
     boardData[position.y][position.x] = createFieldData(boardData[warrior.position.y][warrior.position.x].type, position, warrior.id)
 
@@ -123,6 +122,17 @@ const clickOnBoard = ({ element }) => {
             showWarriorRange(findWarriorById(element.userData.id), onFieldTypes.SHOW_WALK_DISTANCE, [onFieldTypes.SHOW_WALK_DISTANCE])
         else if (element.userData.type === onFieldTypes.AVAILABLE_WALK)
             moveCurrentPlayerToPosition(element.userData.position)
+    }
+}
+
+const showInfo = ({ element }) => {
+    if (element && element.userData) {
+        for (const player of players) {
+            if (player.army.checkIfWarriorBelongsToArmy(element.userData.id)) {
+                const color = player.type === 'player' ? playersColors[onFieldTypes.ALLY] : playersColors[onFieldTypes.ENEMY]
+                player.army.addWindow(element.userData.id, player.name, color)
+            }
+        }
     }
 }
 
@@ -147,4 +157,5 @@ export const battleInit = (player, enemy) => {
         }
     })
     enableMouseEventsOnScene(listenersName.CLICK, clickOnBoard)
+    enableMouseEventsOnScene(listenersName.RIGHTCLICK, showInfo)
 }

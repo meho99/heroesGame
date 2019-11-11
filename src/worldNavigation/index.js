@@ -44,7 +44,7 @@ const getClickedElement = ({ element }) => {
         }
     }
 }
-enableMouseEventsOnScene(listenersName.CLICK, getClickedElement)
+enableMouseEventsOnScene(listenersName.RIGHTCLICK, getClickedElement)
 
 enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
 

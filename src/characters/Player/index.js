@@ -7,7 +7,7 @@ import { Army } from '../Army'
 import { cameraControls } from '../../worldNavigation/scene'
 
 export class Player {
-    constructor(range, modelName, startPosition) {
+    constructor(name, range, modelName, startPosition) {
 
         this.range = range
         this.currentRange = range
@@ -16,6 +16,8 @@ export class Player {
         this.FlightHeight = 10
         this.speed = 2
         this.round = 0
+        this.name = name
+        this.type = 'player'
 
         this.army = new Army()
 
