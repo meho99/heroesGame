@@ -31,7 +31,7 @@ allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
 allPlayers[0].army.addWarriors('GOBLIN', 2)
 
-allBirds[0].army.addWarriors('AMATEUR', 2)
+allBirds[0].army.addWarriors('AMATEUR', 5)
 
 console.log(allBirds[0], allPlayers[0])
 allStaticEnemies[0].army.addWarriors('AMATEUR', 2)

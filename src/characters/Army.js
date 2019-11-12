@@ -16,13 +16,27 @@ export class Army {
 
         const prevWarriors = this.warriors[type] ? this.warriors[type] : { ...newWarrior(type, idGenerator()), quantity: 0 }
 
-        this.warriors[type] = { ...prevWarriors, quantity: prevWarriors.quantity + number, currentHealth: (prevWarriors.quantity + number) * prevWarriors.maxHealth }
+        this.warriors[type] = { ...prevWarriors, quantity: prevWarriors.quantity + number, currentHealth: prevWarriors.currentHealth + number * prevWarriors.maxHealth }
     }
 
     checkIfWarriorBelongsToArmy = (id) =>
         Object.keys(this.warriors).some(warriorsGroup =>
             this.warriors[warriorsGroup].id === id
         )
+    
+    defendAttack = (id, attackPower, quantity) => {
+        const warrior = this.warriors[Object.keys(this.warriors).find(warriorsGroup => this.warriors[warriorsGroup].id === id)]
+        const defendersQuantity = warrior.quantity < quantity ? warrior.quantity : quantity
+        let lostHealthPoints = attackPower - defendersQuantity * warrior.defend
+        lostHealthPoints = lostHealthPoints > quantity ? lostHealthPoints : quantity
+        warrior.currentHealth -= lostHealthPoints
+        warrior.quantity = warrior.currentHealth <= 0 ? 0 : parseInt(warrior.currentHealth/warrior.maxHealth) + 1
+    }
+
+    killUnit = (id) => {
+        delete this.warriors[Object.keys(this.warriors).find(warriorsGroup => this.warriors[warriorsGroup].id === id)]
+    }
+            
     addWindow = (id, playerName, color) => {
         const warrior = this.warriors[Object.keys(this.warriors).find(warriorsGroup => this.warriors[warriorsGroup].id === id)]
 

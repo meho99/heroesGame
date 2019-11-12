@@ -1,8 +1,11 @@
-const allPlayers = []
+let allPlayers = []
 
 const addPlayer = (player) => {
     player.updatePlayerRound(allPlayers.length + 1)
     allPlayers.push(player)
+}
+const removePlayer =(id) => {
+    allPlayers = allPlayers.filter(player => player.id !== id)
 }
 const findPlayerIndexByCurrentRound = (round) => {
     const playerRound = ((round - 1) % allPlayers.length) + 1
@@ -11,6 +14,7 @@ const findPlayerIndexByCurrentRound = (round) => {
 
 export {
     allPlayers,
+    removePlayer,
     addPlayer,
     findPlayerIndexByCurrentRound
 }

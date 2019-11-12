@@ -2,15 +2,17 @@ const warriorTypes = {
     AMATEUR: {
         range: 4,
         name: 'Amateur',
-        maxHealth: 10,
-        currentHealth: 10,
+        maxHealth: 12,
+        currentHealth: 0,
+        defend: 2,
         force: 5
     },
     GOBLIN: {
-        range: 5,
+        range: 6,
         name: 'Goblin',
-        maxHealth: 6,
-        currentHealth: 6,
+        maxHealth: 8,
+        defend: 1,
+        currentHealth: 0,
         force: 3
     }
 }

@@ -1,17 +1,23 @@
 import { onFieldTypes, emptyFieldData, boardSize, playersColors } from './constants'
 import { randomNumber } from '../commonFunctions'
-import { enableMouseEventsOnScene, listenersName } from '../threeConfig'
+import { enableMouseEventsOnScene, listenersName, changeCursor } from '../threeConfig'
+import { worldNavigationRestart } from '../worldNavigation';
 
-let players = []
+let players = {}
 
 export let currentRound = 0
 
 export const nextRound = () => {
     currentRound += 1
+    checkIfCanAttack()
     showWarriorRange(getCurrentWarrior(), onFieldTypes.AVAILABLE_WALK)
 }
 
 export let boardData = []
+
+export let allWarriors = []
+
+export let warriorsAvailableToAttack = []
 
 const makeEmptyBoard = () => {
     boardData = []
@@ -29,8 +35,6 @@ const createFieldData = (type, position, id) => ({
     id
 })
 
-export let allWarriors = []
-
 const setWarriorsStartPosition = (player, side) => {
     let range
     if (side === onFieldTypes.ALLY) {
@@ -44,10 +48,11 @@ const setWarriorsStartPosition = (player, side) => {
     }
     for (const group of allWarriorsGroups) {
         allWarriors.push(group)
+        group.position = 'pending'
         let randomXPosition = randomNumber(range.min, range.max)
-        let randomYPosition = randomNumber(0, boardSize)
+        let randomYPosition = randomNumber(0, boardData.length)
 
-        while (boardData[randomYPosition][randomXPosition].type === onFieldTypes.EMPTY) {
+        while (group.position === 'pending') {
             if (boardData[randomYPosition][randomXPosition].type === onFieldTypes.EMPTY) {
                 boardData[randomYPosition][randomXPosition] = createFieldData(side, { x: randomXPosition, y: randomYPosition }, group.id)
                 group.position = { x: randomXPosition, y: randomYPosition }
@@ -106,28 +111,93 @@ export const findWarriorById = (id) => {
 }
 
 const moveCurrentPlayerToPosition = (position) => {
+
     const warrior = getCurrentWarrior()
     boardData[position.y][position.x] = createFieldData(boardData[warrior.position.y][warrior.position.x].type, position, warrior.id)
 
     boardData[warrior.position.y][warrior.position.x] = { ...emptyFieldData, position: warrior.position }
     warrior.position = position
     clearBoard([onFieldTypes.AVAILABLE_WALK])
+    checkIfCanAttack()
+
+    if (warriorsAvailableToAttack.length === 0) {
+        nextRound()
+    }
+}
+
+const checkIfCanAttack = () => {
+    warriorsAvailableToAttack = []
+    const { x, y } = getCurrentWarrior().position
+    const opponentFieldType = boardData[y][x].type === onFieldTypes.ENEMY ? onFieldTypes.ALLY : onFieldTypes.ENEMY
+
+    const checkIfEnemyStandsHere = (y, x) => boardData[y][x].type === opponentFieldType
+    const nearFields = [[0, 1], [0, -1], [1, 1], [1, -1], [1, 0], [-1, 1], [-1, -1], [-1, 0]]
+
+    for (const field of nearFields) {
+        let fieldY = y + field[0]
+        let fieldX = x + field[1]
+        if (fieldX >= 0 && fieldX < boardData.length && fieldY >= 0 && fieldY < boardData.length) {
+            if (checkIfEnemyStandsHere(fieldY, fieldX)) {
+                warriorsAvailableToAttack.push(boardData[fieldY][fieldX].id)
+            }
+        }
+    }
+}
+
+const mouseMoveOnBoard = ({ element }) => {
+    clearBoard([onFieldTypes.SHOW_WALK_DISTANCE])
+    changeCursor('basic')
+    if (element && element.userData) {
+        if ((element.userData.type === onFieldTypes.ALLY || element.userData.type === onFieldTypes.ENEMY) && element.userData.id !== getCurrentWarrior().id) {
+            if (warriorsAvailableToAttack.includes(element.userData.id)) changeCursor('sword')
+
+            showWarriorRange(findWarriorById(element.userData.id), onFieldTypes.SHOW_WALK_DISTANCE, [onFieldTypes.SHOW_WALK_DISTANCE])
+
+        }
+    }
+}
+
+const deleteDeadWarriors = () => {
+    allWarriors = allWarriors.filter(warrior => {
+        if (warrior.quantity <= 0) {
+            boardData[warrior.position.y][warrior.position.x] = { ...emptyFieldData, position: warrior.position }
+            return false
+        }
+        else return true
+    })
+    if (Object.keys(players[onFieldTypes.ENEMY].army.warriors).length === 0) {
+        worldNavigationRestart(players[onFieldTypes.ENEMY])
+    } else if (Object.keys(players[onFieldTypes.ALLY].army.warriors).length === 0) {
+        worldNavigationRestart(players[onFieldTypes.ALLY])
+    }
+
+}
+
+const attackWarrior = (id, type) => {
+    const attackPower = getCurrentWarrior().quantity * getCurrentWarrior().force
+    players[type].army.defendAttack(id, attackPower, getCurrentWarrior().quantity)
+    if (findWarriorById(id).quantity <= 0) {
+        players[type].army.killUnit(id)
+    }
+    deleteDeadWarriors()
+    nextRound()
 }
 
 const clickOnBoard = ({ element }) => {
 
     clearBoard([onFieldTypes.SHOW_WALK_DISTANCE])
     if (element && element.userData) {
-        if ((element.userData.type === onFieldTypes.ALLY || element.userData.type === onFieldTypes.ENEMY) && element.userData.id !== getCurrentWarrior().id)
-            showWarriorRange(findWarriorById(element.userData.id), onFieldTypes.SHOW_WALK_DISTANCE, [onFieldTypes.SHOW_WALK_DISTANCE])
-        else if (element.userData.type === onFieldTypes.AVAILABLE_WALK)
+        if (element.userData.type === onFieldTypes.AVAILABLE_WALK)
             moveCurrentPlayerToPosition(element.userData.position)
+        if (warriorsAvailableToAttack.includes(element.userData.id)) {
+            attackWarrior(element.userData.id, element.userData.type)
+        }
     }
 }
 
 const showInfo = ({ element }) => {
     if (element && element.userData) {
-        for (const player of players) {
+        for (const player of Object.values(players)) {
             if (player.army.checkIfWarriorBelongsToArmy(element.userData.id)) {
                 const color = player.type === 'player' ? playersColors[onFieldTypes.ALLY] : playersColors[onFieldTypes.ENEMY]
                 player.army.addWindow(element.userData.id, player.name, color)
@@ -137,14 +207,14 @@ const showInfo = ({ element }) => {
 }
 
 export const battleInit = (player, enemy) => {
-    players[0] = player
-    players[1] = enemy
+    players[onFieldTypes.ALLY] = player
+    players[onFieldTypes.ENEMY] = enemy
 
     makeEmptyBoard()
 
     allWarriors = []
-    setWarriorsStartPosition(players[0], onFieldTypes.ALLY)
-    setWarriorsStartPosition(players[1], onFieldTypes.ENEMY)
+    setWarriorsStartPosition(players[onFieldTypes.ALLY], onFieldTypes.ALLY)
+    setWarriorsStartPosition(players[onFieldTypes.ENEMY], onFieldTypes.ENEMY)
 
 
     allWarriors.sort(() => Math.random() - 0.5)
@@ -158,4 +228,5 @@ export const battleInit = (player, enemy) => {
     })
     enableMouseEventsOnScene(listenersName.CLICK, clickOnBoard)
     enableMouseEventsOnScene(listenersName.RIGHTCLICK, showInfo)
+    enableMouseEventsOnScene(listenersName.MOUSEMOVE, mouseMoveOnBoard)
 }
