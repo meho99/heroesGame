@@ -13,6 +13,8 @@ export {
 
 export { createWindow } from './informationWindows'
 
+export { changeCursor } from './cursors'
+
 // ----- scene sizes -----
 export const sceneWidth = window.innerWidth * 8 / 10
 export const sceneHeight = window.innerHeight

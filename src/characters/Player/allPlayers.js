@@ -4,7 +4,7 @@ const addPlayer = (player) => {
     player.updatePlayerRound(allPlayers.length + 1)
     allPlayers.push(player)
 }
-const removePlayer =(id) => {
+const removePlayer = (id) => {
     allPlayers = allPlayers.filter(player => player.id !== id)
 }
 const findPlayerIndexByCurrentRound = (round) => {

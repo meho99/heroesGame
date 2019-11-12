@@ -13,16 +13,17 @@ const listenersName = {
     CLICK: 'click',
     DBCLICK: 'dblclick',
     KEYDOWN: 'keydown',
-    RIGHTCLICK: 'mousedown'
+    RIGHTCLICK: 'mousedown',
+    MOUSEMOVE: 'mousemove'
 }
 
 const blocks = Object.keys(listenersName).reduce((obj, item) => {
-    obj[item] = true
+    obj[listenersName[item]] = true
     return obj
 }, {})
 
 const actualFunctions = Object.keys(listenersName).reduce((obj, item) => {
-    obj[item] = () => { }
+    obj[listenersName[item]] = () => { }
     return obj
 }, {})
 
@@ -71,6 +72,7 @@ const listenersStart = () => {
     container.addEventListener([listenersName.DBCLICK], (e) => { listenerFunc(e, [listenersName.DBCLICK]) })
 
     document.addEventListener([listenersName.KEYDOWN], (e) => { listenerFunc(e, [listenersName.KEYDOWN]) })
+    container.addEventListener(listenersName.MOUSEMOVE, (e) => { listenerFunc(e, listenersName.MOUSEMOVE) })
     document.addEventListener(listenersName.RIGHTCLICK, (e) => {
         if (e.which === 3) {
             e.preventDefault()
