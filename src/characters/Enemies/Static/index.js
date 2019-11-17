@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 
 import { staticEnemyModels } from './staticEnemiesModel'
+import { removeStaticEnenmy } from './allStaticEnemies'
 import { createWindow } from '../../../threeConfig'
 import { idGenerator } from '../../../commonFunctions'
 import { battleStart } from '../../../battle'
@@ -17,6 +18,9 @@ export class StaticEnemy {
         this.speed = 0.6
         this.directionVect = new THREE.Vector3(0, 0, 0)
 
+        this.type = 'enemy'
+        this.name = modelName
+
         this.army = new Army()
 
         this.findStaticEnemyModel(startPosition)
@@ -32,6 +36,10 @@ export class StaticEnemy {
 
         this.staticEnemyContainer.add(this.staticEnemyModel)
         this.staticEnemyContainer.position.set(x, this.FlightHeight, z)
+    }
+
+    deletePlayer = () => {
+        removeStaticEnenmy(this.id)
     }
 
     makeStaticEnemyRangeCircle = () => {
@@ -107,13 +115,13 @@ export class StaticEnemy {
         }
     }
 
-    getStaticEnemyContainer = () => {
+    getContainer = () => {
         return this.staticEnemyContainer
     }
     getStaticEnemyModel = () => {
         return this.staticEnemyModel
     }
-    getStaticEnemyCircle = () => {
+    getCircle = () => {
         return this.circle
     }
 }

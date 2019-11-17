@@ -1,13 +1,21 @@
 import { sceneWidth, sceneHeight } from './'
 
 export const createWindow = (header, text, button, onClickAction, styleOverrides = {}) => {
-    const { containerStyles = { dupa: 'kupa' }, headerStyles, textStyles, buttonStyles } = styleOverrides
+    const { containerStyles, headerStyles, textStyles, buttonStyles } = styleOverrides
+
+    const width = 400
+    const minHeight = 250
 
     const windowContainer = document.createElement('div')
     const windowContainerStyles = {
         position: 'absolute',
         backgroundColor: 'black',
-        width: '400px',
+        width: width+'px',
+        minHeight: minHeight+'px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         textAlign: 'center',
         padding: '20px'
     }
@@ -45,8 +53,9 @@ export const createWindow = (header, text, button, onClickAction, styleOverrides
     windowButton.onclick = onClickAction
     windowContainer.appendChild(windowButton)
 
-    windowContainer.style.top = `${sceneHeight / 2 - getComputedStyle(windowContainer).height / 2}px`
-    windowContainer.style.left = `${sceneWidth / 2 - getComputedStyle(windowContainer).width / 2}px`
+    windowContainer.style.top = `${sceneHeight / 2 - minHeight / 2}px`
+    windowContainer.style.left = `${sceneWidth / 2 - width / 2}px`
+
 
     return windowContainer
 }

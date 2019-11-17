@@ -17,9 +17,9 @@ import { addStaticEnemy, allStaticEnemies } from './characters/Enemies/Static/al
 animateStart()
 listenersStart()
 
-addPlayer(new Player(100, 'testCube1', { x: -100, z: 100 }))
-addPlayer(new Player(80, 'testCube1', { x: 80, z: 10 }))
-addPlayer(new Player(70, 'testCube1', { x: 120, z: -120 }))
+addPlayer(new Player('Player 1', 100, 'testCube1', { x: -100, z: 100 }))
+addPlayer(new Player('Player 2', 80, 'testCube1', { x: 80, z: 10 }))
+addPlayer(new Player('Player 3', 70, 'testCube1', { x: 120, z: -120 }))
 
 addBird(new Bird(50, 'testBird', { x: 100, z: 150 }))
 addBird(new Bird(100, 'testBird', { x: -100, z: -150 }))
@@ -31,7 +31,7 @@ allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
 allPlayers[0].army.addWarriors('GOBLIN', 2)
 
-allBirds[0].army.addWarriors('AMATEUR', 2)
+allBirds[0].army.addWarriors('AMATEUR', 5)
 
 console.log(allBirds[0], allPlayers[0])
 allStaticEnemies[0].army.addWarriors('AMATEUR', 2)

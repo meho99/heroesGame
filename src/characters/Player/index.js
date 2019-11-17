@@ -1,13 +1,14 @@
 import * as THREE from 'three'
 
 import { playersModels } from './playersModels'
+import { removePlayer } from './allPlayers'
 import { idGenerator } from '../../commonFunctions'
 import { Army } from '../Army'
 
 import { cameraControls } from '../../worldNavigation/scene'
 
 export class Player {
-    constructor(range, modelName, startPosition) {
+    constructor(name, range, modelName, startPosition) {
 
         this.range = range
         this.currentRange = range
@@ -16,6 +17,8 @@ export class Player {
         this.FlightHeight = 10
         this.speed = 2
         this.round = 0
+        this.name = name
+        this.type = 'player'
 
         this.army = new Army()
 
@@ -44,10 +47,14 @@ export class Player {
         this.updateCirclePosition()
     }
 
+    deletePlayer = () => {
+        removePlayer(this.id)
+    }
+
     updatePlayerRound = (round) => {
         this.round = round
     }
-    updatePlayerPosition = ({ x, y, z }) => {
+    updatePlayerPosition = ({ x, y = this.FlightHeight, z }) => {
         this.playerContainer.position.set(x, y, z)
     }
     updateCirclePosition = () => {
@@ -84,13 +91,13 @@ export class Player {
         if (element && element.userData.moveHere === this.round) {
 
             this.getPlayerModel().rotation.y = Math.atan2(
-                this.getPlayerContainer().position.clone().x - clickedPosition.x,
-                this.getPlayerContainer().position.clone().z - clickedPosition.z
+                this.getContainer().position.clone().x - clickedPosition.x,
+                this.getContainer().position.clone().z - clickedPosition.z
             )
 
             clickedPosition = clickPosition
             clickedPosition.setY(this.FlightHeight)
-            let directionVect = clickedPosition.clone().sub(this.getPlayerContainer().position.clone()).normalize()
+            let directionVect = clickedPosition.clone().sub(this.getContainer().position.clone()).normalize()
 
             return [
                 clickedPosition,
@@ -99,7 +106,7 @@ export class Player {
         }
     }
 
-    getPlayerContainer = () => {
+    getContainer = () => {
         return this.playerContainer
     }
     getPlayerModel = () => {

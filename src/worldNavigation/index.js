@@ -44,14 +44,10 @@ const getClickedElement = ({ element }) => {
         }
     }
 }
-enableMouseEventsOnScene(listenersName.CLICK, getClickedElement)
-
-enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
-
 
 const update = () => {
     currentPlayer.updateCirclePosition()
-    let cubePositionOnBoard = currentPlayer.getPlayerContainer().position.clone()
+    let cubePositionOnBoard = currentPlayer.getContainer().position.clone()
     distance = cubePositionOnBoard.distanceTo(clickedPosition)
 
     if (distance > currentPlayer.speed) {
@@ -65,7 +61,7 @@ const update = () => {
         }
 
         currentPlayer.moveCameraToPlayer()
-        currentPlayer.getPlayerContainer().translateOnAxis(directionVect, currentPlayer.speed)
+        currentPlayer.getContainer().translateOnAxis(directionVect, currentPlayer.speed)
 
     } else {
         if (!currentPlayer.showCircle) {
@@ -79,10 +75,10 @@ const update = () => {
     }
 
     for (const bird of allBirds) {
-        bird.moveBird(currentPlayer.getPlayerContainer(), currentPlayer)
+        bird.moveBird(currentPlayer.getContainer(), currentPlayer)
     }
     for (const staticEnemy of allStaticEnemies) {
-        staticEnemy.shouldAttack(currentPlayer.getPlayerContainer(), currentPlayer)
+        staticEnemy.shouldAttack(currentPlayer.getContainer(), currentPlayer)
     }
 }
 
@@ -95,7 +91,7 @@ const goToNextRound = () => {
     currentPlayer = allPlayers[findPlayerIndexByCurrentRound(currentRound)]
     currentPlayer.startPlayerRound(scene)
 
-    clickedPosition = new THREE.Vector3(currentPlayer.getPlayerContainer().position.x, currentPlayer.FlightHeight, currentPlayer.getPlayerContainer().position.z)
+    clickedPosition = new THREE.Vector3(currentPlayer.getContainer().position.x, currentPlayer.FlightHeight, currentPlayer.getContainer().position.z)
 }
 
 export const worldNavigationStart = () => {
@@ -103,24 +99,24 @@ export const worldNavigationStart = () => {
     setGroupToClick(scene)
 
     for (const bird of allBirds) {
-        scene.add(bird.getBirdContainer())
-        scene.add(bird.getBirdCircle())
+        scene.add(bird.getContainer())
+        scene.add(bird.getCircle())
     }
 
     for (const StaticEnemy of allStaticEnemies) {
-        scene.add(StaticEnemy.getStaticEnemyContainer())
-        scene.add(StaticEnemy.getStaticEnemyCircle())
+        scene.add(StaticEnemy.getContainer())
+        scene.add(StaticEnemy.getCircle())
     }
 
     for (const player of allPlayers) {
 
         player.makePlayerRangeCircle()
-        scene.add(player.getPlayerContainer())
+        scene.add(player.getContainer())
 
         if (allPlayers[findPlayerIndexByCurrentRound(currentRound)].round === player.round) {
             currentPlayer = player
             player.startPlayerRound(scene)
-            clickedPosition = new THREE.Vector3(player.getPlayerContainer().position.x, player.FlightHeight, player.getPlayerContainer().position.z)
+            clickedPosition = new THREE.Vector3(player.getContainer().position.x, player.FlightHeight, player.getContainer().position.z)
         }
     }
     animateUpdate(update)
@@ -131,9 +127,26 @@ export const worldNavigationStart = () => {
             goToNextRound()
         }
     })
+    enableMouseEventsOnScene(listenersName.RIGHTCLICK, getClickedElement)
+    enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
 }
 
-export const worldNavigationRestart = () => {
+export const worldNavigationRestart = (killedPlayer) => {
+    if (killedPlayer) {
+        console.log(allStaticEnemies)
+        killedPlayer.deletePlayer()
+        console.log(allStaticEnemies)
+
+        scene.remove(killedPlayer.getContainer())
+        if (killedPlayer.getCircle) {
+            scene.remove(killedPlayer.getCircle())
+            clickedPosition = new THREE.Vector3(currentPlayer.getContainer().position.x, currentPlayer.FlightHeight, currentPlayer.getContainer().position.z)
+        }
+        if (killedPlayer.type === 'player') {
+            goToNextRound()
+        }
+    }
+
     setGroupToClick(scene)
     setCurrentScene(scene, camera, cameraControls)
     animateUpdate(update)
@@ -143,4 +156,6 @@ export const worldNavigationRestart = () => {
             goToNextRound()
         }
     })
+    enableMouseEventsOnScene(listenersName.RIGHTCLICK, getClickedElement)
+    enableMouseEventsOnScene(listenersName.DBCLICK, movePlayer)
 }

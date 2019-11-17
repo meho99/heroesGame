@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 
 import { birdModels } from './birdModels'
+import { removeBird } from './allBirds'
 import { createWindow } from '../../../threeConfig'
 import { idGenerator } from '../../../commonFunctions'
 import { battleStart } from '../../../battle'
@@ -16,6 +17,9 @@ export class Bird {
         this.FlightHeight = 10
         this.speed = 0.6
         this.directionVect = new THREE.Vector3(0, 0, 0)
+
+        this.type = 'enemy'
+        this.name = modelName
 
         this.army = new Army()
 
@@ -48,6 +52,10 @@ export class Bird {
         }
         this.updateCirclePosition()
         this.birdContainer.position.setX(this.birdContainer.position.x + this.range)
+    }
+
+    deletePlayer = () => {
+        removeBird(this.id)
     }
 
     makeInformationWindows = () => {
@@ -128,13 +136,13 @@ export class Bird {
         this.informationWindows[name].active = false
     }
 
-    getBirdContainer = () => {
+    getContainer = () => {
         return this.birdContainer
     }
-    getBirdModel = () => {
+    getModel = () => {
         return this.birdModel
     }
-    getBirdCircle = () => {
+    getCircle = () => {
         return this.circle
     }
 }
