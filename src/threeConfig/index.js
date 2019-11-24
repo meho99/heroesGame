@@ -1,7 +1,10 @@
 import * as THREE from 'three'
 import OrbitControls from 'threejs-orbit-controls'
 
-export { loadModel } from './loadModels'
+export { 
+    loadModel,
+    addModel
+} from './loadModels'
 
 export {
     enableMouseEventsOnScene,
@@ -40,11 +43,11 @@ export const makeInitialScene = (light, camera, controls) => {
     const scene = new THREE.Scene()
     scene.background = new THREE.Color(0x00ffff)
 
-    scene.fog = new THREE.Fog(0x00ffff, 960, 1000)
+    scene.fog = new THREE.Fog(0x00ffff, 850, 1050)
 
     // ----- lights -----
     if (!light) {
-        const defaultLight = new THREE.DirectionalLight(0xffffff, 0.8)
+        const defaultLight = new THREE.DirectionalLight(0xffffff, 1.2)
         scene.add(defaultLight)
     } else {
         scene.add(light)
