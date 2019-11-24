@@ -19,7 +19,7 @@ export class Player {
         this.round = 0
         this.name = name
         this.type = 'player'
-
+        this.gold = 0
         this.army = new Army()
 
         this.id = idGenerator()
@@ -104,6 +104,13 @@ export class Player {
                 directionVect
             ]
         }
+    }
+    addGold = (gold) => {
+        this.gold += gold
+    }
+
+    spendGold = (gold) => {
+        this.gold -= gold
     }
 
     getContainer = () => {
