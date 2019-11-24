@@ -12,6 +12,9 @@ import { addBird, allBirds } from './characters/Enemies/Bird/allBirds'
 import { StaticEnemy } from './characters/Enemies/Static'
 import { addStaticEnemy, allStaticEnemies } from './characters/Enemies/Static/allStaticEnemies'
 
+import { Building } from './buildings'
+import { addBuilding, allBuildings } from './buildings/allbuildings'
+
 
 
 animateStart()
@@ -26,6 +29,8 @@ addBird(new Bird(100, 'testBird', { x: -100, z: -150 }))
 
 addStaticEnemy(new StaticEnemy(10, 'testStaticEnemy', { x: 150, z: 50 }))
 addStaticEnemy(new StaticEnemy(10, 'testStaticEnemy', { x: -150, z: -50 }))
+
+addBuilding(new Building(15, 'testBuilding', { x: -250, z: 0 }, 10))
 
 allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
