@@ -9,6 +9,7 @@ const removePlayer = (id) => {
 }
 const findPlayerIndexByCurrentRound = (round) => {
     const playerRound = ((round - 1) % allPlayers.length) + 1
+    console.log(allPlayers)
     return allPlayers.findIndex(player => player.round === playerRound)
 }
 

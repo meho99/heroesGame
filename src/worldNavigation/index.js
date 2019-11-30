@@ -149,7 +149,7 @@ export const worldNavigationRestart = (killedPlayer) => {
     if (killedPlayer) {
         console.log(allStaticEnemies)
         killedPlayer.deletePlayer()
-        console.log(allStaticEnemies)
+        console.log(killedPlayer)
 
         scene.remove(killedPlayer.getContainer())
         if (killedPlayer.getCircle) {

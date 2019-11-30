@@ -8,6 +8,7 @@ export const startFieldY = - boardSize / 2 * fieldWidth
 export const fieldColors = {
     WHITE: 0xfffff,
     YELLOW: 0xffff00,
+    GREY: 0xf2f2f2,
     GREEN: 0x00ff00
 }
 

@@ -2,6 +2,7 @@ import { onFieldTypes, emptyFieldData, boardSize, playersColors } from './consta
 import { randomNumber } from '../commonFunctions'
 import { enableMouseEventsOnScene, listenersName, changeCursor } from '../threeConfig'
 import { worldNavigationRestart } from '../worldNavigation';
+import { obstaclesInit } from './obstacles'
 
 let players = {}
 
@@ -151,8 +152,10 @@ const mouseMoveOnBoard = ({ element }) => {
         if ((element.userData.type === onFieldTypes.ALLY || element.userData.type === onFieldTypes.ENEMY) && element.userData.id !== getCurrentWarrior().id) {
             if (warriorsAvailableToAttack.includes(element.userData.id)) changeCursor('sword')
 
-            showWarriorRange(findWarriorById(element.userData.id), onFieldTypes.SHOW_WALK_DISTANCE, [onFieldTypes.SHOW_WALK_DISTANCE])
+            showWarriorRange(findWarriorById(element.userData.id), onFieldTypes.SHOW_WALK_DISTANCE, [onFieldTypes.SHOW_WALK_DISTANCE, onFieldTypes.AVAILABLE_WALK])
 
+        } else {
+            showWarriorRange(getCurrentWarrior(), onFieldTypes.AVAILABLE_WALK)
         }
     }
 }
@@ -229,4 +232,5 @@ export const battleInit = (player, enemy) => {
     enableMouseEventsOnScene(listenersName.CLICK, clickOnBoard)
     enableMouseEventsOnScene(listenersName.RIGHTCLICK, showInfo)
     enableMouseEventsOnScene(listenersName.MOUSEMOVE, mouseMoveOnBoard)
+    obstaclesInit()
 }

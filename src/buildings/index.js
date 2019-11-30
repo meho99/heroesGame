@@ -25,7 +25,7 @@ export class Building {
         this.container = new THREE.Object3D()
         this.container.add(this.modelDetails.model)
         //console.log(this.container.geometry.parameters.width)
-        this.container.position.set(x + this.modelDetails.positionCorrections.x, this.FlightHeight + this.modelDetails.positionCorrections.y, z + this.modelDetails.positionCorrections.z)
+        this.container.position.set(x , this.FlightHeight + this.modelDetails.positionCorrections.y, z)
     }
 
     makeRangeCircle = () => {
