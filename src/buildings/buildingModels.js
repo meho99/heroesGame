@@ -6,7 +6,7 @@ export const models = [
         id: 0,
         name: 'testBuilding',
         positionCorrections: modelsDetails['building'].positionCorrections,
-        model:  addModel("building", { x: 0, z: 0 })    
+        model: ()  => addModel("building", { x: 0, z: 0 })    
     }
 ]
 

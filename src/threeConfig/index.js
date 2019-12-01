@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import OrbitControls from 'threejs-orbit-controls'
 
-export { 
+export {
     loadModel,
     addModel
 } from './loadModels'

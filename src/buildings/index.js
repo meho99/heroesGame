@@ -4,26 +4,29 @@ import { models } from './buildingModels'
 import { createWindow } from '../threeConfig'
 import { idGenerator } from '../commonFunctions'
 import { removeBuilding } from './allbuildings'
+import { UpdatePlayerDetails } from '../userInterface/bottomMenu'
+import { buildingActions } from './buildingActions'
 
 export class Building {
-    constructor(range, modelName, startPosition, gold) {
+    constructor(type, range, modelName, startPosition, additional) {
 
         this.range = range
         this.id = idGenerator()
         this.modelName = modelName
         this.FlightHeight = 0
-        this.gold = gold
+        this.additional = additional
         this.type = "building"
         this.findModel(startPosition)
         this.makeRangeCircle()
         this.makeInformationWindows()
+        this.type = type
+        this.changeOwnerBlock = false // po nowej rundzie sie odnowi !!
     }
 
     findModel = ({ x, z }) => {
         this.modelDetails = models.find(model => model.name = this.modelName)
-        console.log("BILDING", this.modelDetails.model.clone())
         this.container = new THREE.Object3D()
-        this.container.add(this.modelDetails.model)
+        this.container.add(this.modelDetails.model())
         //console.log(this.container.geometry.parameters.width)
         this.container.position.set(x , this.FlightHeight + this.modelDetails.positionCorrections.y, z)
     }
@@ -45,10 +48,14 @@ export class Building {
 
     }
 
+    setChangeOwnerBlock = (value) => {
+        this.changeOwnerBlock = value
+    }
+
     makeInformationWindows = () => {
         const collectInfoElemnt = createWindow(
             'Złoto',
-            `Zebrałeś ${this.gold} sztuk złota`,
+            `Zebrałeś ${this.additional.gold} sztuk złota`,
             `OK`,
             () => {
                 this.removeWindow('collect')
@@ -57,7 +64,7 @@ export class Building {
 
         const infoElment = createWindow(
             'Złoto',
-            `${this.gold} sztuk`,
+            `${this.additional.gold} sztuk`,
             `OK`,
             () => {
                 this.removeWindow('info')
@@ -79,11 +86,7 @@ export class Building {
     changeOwner = (playerContainer, player, scene) => {
         const playerPosition = new THREE.Vector3(playerContainer.position.x, this.FlightHeight, playerContainer.position.z)
         if (this.circle.position.clone().distanceTo(playerPosition) < this.range) {
-            this.addWindow('collect')
-            removeBuilding(this.id)
-            player.addGold(this.gold)
-            scene.remove(this.circle)
-            scene.remove(this.container)
+            buildingActions[this.type].changeOwner({ ...this, player, UpdatePlayerDetails, removeBuilding, scene })
         }
     }
 
