@@ -19,6 +19,7 @@ import {
 import { allBirds, findBirdIndexById } from '../characters/Enemies/Bird/allBirds'
 import { allStaticEnemies, findStaticEnemyIndexById } from '../characters/Enemies/Static/allStaticEnemies'
 import { allBuildings, findBuildingIndexById } from '../buildings/allbuildings'
+import { ShowBottomMenu } from '../userInterface/bottomMenu'
 
 let currentRound = 1
 
@@ -104,6 +105,9 @@ const goToNextRound = () => {
 }
 
 export const worldNavigationStart = () => {
+
+    ShowBottomMenu()
+
     setCurrentScene(scene, camera, cameraControls)
     setGroupToClick(scene)
 
@@ -160,7 +164,7 @@ export const worldNavigationRestart = (killedPlayer) => {
             goToNextRound()
         }
     }
-
+    ShowBottomMenu()
     setGroupToClick(scene)
     setCurrentScene(scene, camera, cameraControls)
     animateUpdate(update)

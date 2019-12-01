@@ -8,6 +8,7 @@ import { scene, camera, cameraControls } from './scene'
 
 import { boardUpdate, boardGroup } from './board'
 import { battleInit } from './battleControl'
+import { HideBottomMenu } from '../userInterface/bottomMenu'
 
 const render = () => {
     boardUpdate()
@@ -19,4 +20,5 @@ export const battleStart = (player, enemy) => {
     setGroupToClick(boardGroup)
     animateUpdate(render)
     battleInit(player, enemy)
+    HideBottomMenu()
 }
