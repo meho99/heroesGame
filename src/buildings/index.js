@@ -27,7 +27,6 @@ export class Building {
         this.modelDetails = models.find(model => model.name = this.modelName)
         this.container = new THREE.Object3D()
         this.container.add(this.modelDetails.model())
-        //console.log(this.container.geometry.parameters.width)
         this.container.position.set(x , this.FlightHeight + this.modelDetails.positionCorrections.y, z)
     }
 
@@ -95,7 +94,6 @@ export class Building {
     }
 
     addWindow = (name) => {
-        console.log(this)
         if (!this.informationWindows[name].active) {
             document.body.appendChild(this.informationWindows[name].element)
             this.informationWindows[name].active = true

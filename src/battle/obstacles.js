@@ -7,9 +7,6 @@ import { randomNumber } from '../commonFunctions'
 
 const obstaclesQuantitiy = 5
 
-console.log(obstacleModels)
-
-
 export const obstaclesInit = () => {
     for(let i=0; i< obstaclesQuantitiy; i++){
 
@@ -27,9 +24,7 @@ export const obstaclesInit = () => {
                     position: { x: randomXPosition, y: randomYPosition },
                     id: null
                 }
-                console.log(obstacle)
                 scene.add(addModel(obstacle, { x: startFieldX + fieldWidth * randomXPosition, z: startFieldY + fieldWidth * randomYPosition }))
-                console.log(addModel(obstacle, { x: randomXPosition, y: randomYPosition }))
 
                 isSet = true
 
