@@ -6,6 +6,7 @@ import { idGenerator } from '../../commonFunctions'
 import { Army } from '../Army'
 
 import { cameraControls } from '../../worldNavigation/scene'
+import { UpdatePlayerDetails, updatePlayerRange } from '../../userInterface/bottomMenu'
 
 export class Player {
     constructor(name, range, modelName, startPosition) {
@@ -61,7 +62,13 @@ export class Player {
         this.circle.position.set(this.playerContainer.position.x, 0.3, this.playerContainer.position.z)
     }
     decreasePlayerRange = (value) => {
+        
         this.currentRange -= value
+        if (this.currentRange <  this.speed + this.getPlayerModel().geometry.parameters.width) {
+            this.currentRange = 0
+        }
+        updatePlayerRange((this.currentRange/this.range*100).toFixed(0)+'%')
+
     }
     updateCircleSize = () => {
         let newCircleGeometry = new THREE.CircleGeometry(this.currentRange, 320);
@@ -69,7 +76,12 @@ export class Player {
         this.circle.geometry.dispose()
         this.circle.geometry = newCircleGeometry
     }
-
+    increasePlayerRange=(value)=>{
+        this.range += value 
+        this.currentRange += value
+        this.updateCircleSize()
+        updatePlayerRange((this.currentRange/this.range*100).toFixed(0)+'%')
+    }
     endPlayerRound = (scene) => {
         this.showCircle = false
         scene.remove(this.circle)
@@ -80,6 +92,8 @@ export class Player {
         if (scene) scene.add(this.circle)
         this.updateCircleSize()
         this.moveCameraToPlayer()
+        UpdatePlayerDetails(this.name, this.gold)
+        updatePlayerRange((this.currentRange/this.range*100).toFixed(0)+'%')
     }
 
     moveCameraToPlayer = () => {
