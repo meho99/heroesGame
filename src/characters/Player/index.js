@@ -43,8 +43,10 @@ export class Player {
         const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.2 })
 
         this.circle = new THREE.Mesh(circleGeometry, circleMaterial)
-        this.circle.userData.moveHere = this.id
-
+        this.circle.userData = {
+            moveHere: this.id,
+            block: 'right'
+        }
         this.updateCirclePosition()
     }
 
@@ -62,12 +64,12 @@ export class Player {
         this.circle.position.set(this.playerContainer.position.x, 0.3, this.playerContainer.position.z)
     }
     decreasePlayerRange = (value) => {
-        
+
         this.currentRange -= value
-        if (this.currentRange <  this.speed + this.getPlayerModel().geometry.parameters.width) {
+        if (this.currentRange < this.speed + this.getPlayerModel().geometry.parameters.width) {
             this.currentRange = 0
         }
-        updatePlayerRange((this.currentRange/this.range*100).toFixed(0)+'%')
+        updatePlayerRange((this.currentRange / this.range * 100).toFixed(0) + '%')
 
     }
     updateCircleSize = () => {
@@ -76,11 +78,11 @@ export class Player {
         this.circle.geometry.dispose()
         this.circle.geometry = newCircleGeometry
     }
-    increasePlayerRange=(value)=>{
-        this.range += value 
+    increasePlayerRange = (value) => {
+        this.range += value
         this.currentRange += value
         this.updateCircleSize()
-        updatePlayerRange((this.currentRange/this.range*100).toFixed(0)+'%')
+        updatePlayerRange((this.currentRange / this.range * 100).toFixed(0) + '%')
     }
     endPlayerRound = (scene) => {
         this.showCircle = false
@@ -93,7 +95,7 @@ export class Player {
         this.updateCircleSize()
         this.moveCameraToPlayer()
         UpdatePlayerDetails(this.name, this.gold)
-        updatePlayerRange((this.currentRange/this.range*100).toFixed(0)+'%')
+        updatePlayerRange((this.currentRange / this.range * 100).toFixed(0) + '%')
     }
 
     moveCameraToPlayer = () => {

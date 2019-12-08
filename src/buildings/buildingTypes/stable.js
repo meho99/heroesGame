@@ -44,7 +44,7 @@ export const informationsWindows = ({ additional, removeWindow }) => {
         `ten budynek został już odwiedzony.`,
         `OK`,
         () => {
-            removeWindow('visited')
+            removeWindow('info') // becaouse we change it later to info element
         }
     )
 

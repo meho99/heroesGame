@@ -33,7 +33,7 @@ const setGroupToClick = (group) => {
     groupToClick = group
 }
 
-const getData = (e) => {
+const getData = (e, block) => {
     let vector = new THREE.Vector3()
     e.preventDefault();
 
@@ -42,20 +42,27 @@ const getData = (e) => {
     mouse.x = (e.clientX / Number(sceneWidth)) * 2 - 1
     mouse.y = - (e.clientY / sceneHeight) * 2 + 1
 
-    vector.set(mouse.x, mouse.y, 0.5);
-    vector.unproject(camera);
+    vector.set(mouse.x, mouse.y, 0.5)
+    vector.unproject(camera)
 
     raycaster.set(camera.position, vector.sub(camera.position).normalize())
     var intersects = raycaster.intersectObjects(groupToClick.children)
 
+    const returnOrCheckNext = (object) => (!object.userData || !object.userData.block || object.userData.block !== block)
+
     if (intersects.length > 0) {
-        return { element: intersects[0].object, clickPosition: intersects[0].point, e }
+        for (let i = 0; i < intersects.length; i++) {
+            if (returnOrCheckNext(intersects[i].object)) {
+                return { element: intersects[i].object, clickPosition: intersects[i].point, e }
+            }
+        }
+
     }
     else return { e }
 }
 
-const listenerFunc = (e, name) => {
-    !blocks[name] && actualFunctions[name](getData(e))
+const listenerFunc = (e, name, block) => {
+    !blocks[name] && actualFunctions[name](getData(e, block))
 }
 
 const enableMouseEventsOnScene = (name, func) => {
@@ -76,7 +83,7 @@ const listenersStart = () => {
     document.addEventListener(listenersName.RIGHTCLICK, (e) => {
         if (e.which === 3) {
             e.preventDefault()
-            listenerFunc(e, [listenersName.RIGHTCLICK])
+            listenerFunc(e, [listenersName.RIGHTCLICK], 'right')
         }
     })
 }
