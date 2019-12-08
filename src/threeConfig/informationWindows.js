@@ -7,11 +7,15 @@ export const createWindow = (header, text, button, onClickAction, styleOverrides
     const minHeight = 250
 
     const windowContainer = document.createElement('div')
+    windowContainer.addEventListener('contextmenu', (e) => {
+        e.preventDefault()
+        return false
+    })
     const windowContainerStyles = {
         position: 'absolute',
         backgroundColor: 'black',
-        width: width+'px',
-        minHeight: minHeight+'px',
+        width: width + 'px',
+        minHeight: minHeight + 'px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
