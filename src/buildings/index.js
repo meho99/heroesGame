@@ -5,7 +5,7 @@ import { createWindow } from '../threeConfig'
 import { idGenerator } from '../commonFunctions'
 import { removeBuilding } from './allbuildings'
 import { UpdatePlayerDetails } from '../userInterface/bottomMenu'
-import { buildingActions } from './buildingTypes/'
+import { buildingActions, buildingsWindows } from './buildingTypes/'
 
 export class Building {
     constructor(type, range, modelName, startPosition, additional) {
@@ -15,11 +15,10 @@ export class Building {
         this.modelName = modelName
         this.FlightHeight = 0
         this.additional = additional
-        this.type = "building"
         this.findModel(startPosition)
         this.makeRangeCircle()
-        this.makeInformationWindows()
         this.type = type
+        this.makeInformationWindows()
         this.changeOwnerBlock = false // po nowej rundzie sie odnowi !!
     }
 
@@ -44,42 +43,22 @@ export class Building {
         }
         this.updateCirclePosition()
         this.container.position.set(this.container.position.x + this.modelDetails.positionCorrections.x, this.FlightHeight + this.modelDetails.positionCorrections.y, this.container.position.z + this.modelDetails.positionCorrections.z)
-
     }
+
+    changeCircleColor = (color)=>{
+        this.circle.material.color.setHex(color)
+    } 
 
     setChangeOwnerBlock = (value) => {
         this.changeOwnerBlock = value
     }
 
     makeInformationWindows = () => {
-        const collectInfoElemnt = createWindow(
-            'Złoto',
-            `Zebrałeś ${this.additional.gold} sztuk złota`,
-            `OK`,
-            () => {
-                this.removeWindow('collect')
-            }
-        )
+        this.informationWindows = buildingsWindows[this.type]({...this})
+    }
 
-        const infoElment = createWindow(
-            'Złoto',
-            `${this.additional.gold} sztuk`,
-            `OK`,
-            () => {
-                this.removeWindow('info')
-            }
-        )
-
-        this.informationWindows = {
-            collect: {
-                active: false,
-                element: collectInfoElemnt
-            },
-            info: {
-                active: false,
-                element: infoElment
-            }
-        }
+    changeInformationWindows = (name, element) => {
+        this.informationWindows[name].element = element
     }
 
     changeOwner = (playerContainer, player, scene) => {
