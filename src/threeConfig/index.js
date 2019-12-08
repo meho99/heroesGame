@@ -49,6 +49,8 @@ export const makeInitialScene = (light, camera, controls) => {
     if (!light) {
         const defaultLight = new THREE.DirectionalLight(0xffffff, 1.2)
         scene.add(defaultLight)
+        const defaultLight2 = new THREE.AmbientLight( 0xffffff, 0.1 )
+        scene.add(defaultLight2)
     } else {
         scene.add(light)
     }
