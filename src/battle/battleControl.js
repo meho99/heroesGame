@@ -1,24 +1,32 @@
 import { onFieldTypes, emptyFieldData, boardSize, playersColors } from './constants'
+import { battleEnd } from './'
 import { randomNumber } from '../commonFunctions'
 import { enableMouseEventsOnScene, listenersName, changeCursor } from '../threeConfig'
-import { worldNavigationRestart } from '../worldNavigation';
 import { obstaclesInit } from './obstacles'
 
 let players = {}
 
 export let currentRound = 0
 
-export const nextRound = () => {
-    currentRound += 1
-    checkIfCanAttack()
-    showWarriorRange(getCurrentWarrior(), onFieldTypes.AVAILABLE_WALK)
-}
-
 export let boardData = []
 
 export let allWarriors = []
 
 export let warriorsAvailableToAttack = []
+
+let walkBlock = false
+
+export const nextRound = (warriorId) => {
+    walkBlock = false
+    if (warriorId) {
+        currentRound = allWarriors.findIndex(warrior => warrior.id === warriorId) + 1
+    } else {
+        currentRound += 1
+
+    }
+    checkIfCanAttack()
+    showWarriorRange(getCurrentWarrior(), onFieldTypes.AVAILABLE_WALK)
+}
 
 const makeEmptyBoard = () => {
     boardData = []
@@ -78,27 +86,30 @@ const clearBoard = (types) => {
 
 const showWarriorRange = (warrior, type, clear = [onFieldTypes.AVAILABLE_WALK, onFieldTypes.AVAILABLE_SHOOT, onFieldTypes.SHOW_WALK_DISTANCE]) => {
     clearBoard(clear)
-    let positionsTab = [{ x: warrior.position.x, y: warrior.position.y }]
 
-    const pushPosition = (x, y, tab) => {
-        if ((x >= 0 && x < boardSize) && (y >= 0 && y < boardSize) && boardData[y][x].type === onFieldTypes.EMPTY) {
-            tab.push({ x, y })
-            boardData[y][x].type = type
-        }
-    }
+    if (!(walkBlock && type === onFieldTypes.AVAILABLE_WALK)) {
+        let positionsTab = [{ x: warrior.position.x, y: warrior.position.y }]
 
-    const showAround = () => {
-        const tempPositionsTab = []
-        for (const { x, y } of positionsTab) {
-            pushPosition(x, y - 1, tempPositionsTab)
-            pushPosition(x, y + 1, tempPositionsTab)
-            pushPosition(x + 1, y, tempPositionsTab)
-            pushPosition(x - 1, y, tempPositionsTab)
+        const pushPosition = (x, y, tab) => {
+            if ((x >= 0 && x < boardSize) && (y >= 0 && y < boardSize) && boardData[y][x].type === onFieldTypes.EMPTY) {
+                tab.push({ x, y })
+                boardData[y][x].type = type
+            }
         }
-        positionsTab = tempPositionsTab
-    }
-    for (let i = 0; i < warrior.range; i++) {
-        showAround()
+
+        const showAround = () => {
+            const tempPositionsTab = []
+            for (const { x, y } of positionsTab) {
+                pushPosition(x, y - 1, tempPositionsTab)
+                pushPosition(x, y + 1, tempPositionsTab)
+                pushPosition(x + 1, y, tempPositionsTab)
+                pushPosition(x - 1, y, tempPositionsTab)
+            }
+            positionsTab = tempPositionsTab
+        }
+        for (let i = 0; i < warrior.range; i++) {
+            showAround()
+        }
     }
 }
 
@@ -120,6 +131,8 @@ const moveCurrentPlayerToPosition = (position) => {
     warrior.position = position
     clearBoard([onFieldTypes.AVAILABLE_WALK])
     checkIfCanAttack()
+
+    walkBlock = true
 
     if (warriorsAvailableToAttack.length === 0) {
         nextRound()
@@ -161,29 +174,34 @@ const mouseMoveOnBoard = ({ element }) => {
 }
 
 const deleteDeadWarriors = () => {
+    let isKilled = false
     allWarriors = allWarriors.filter(warrior => {
         if (warrior.quantity <= 0) {
+            isKilled = true
             boardData[warrior.position.y][warrior.position.x] = { ...emptyFieldData, position: warrior.position }
             return false
         }
         else return true
     })
     if (Object.keys(players[onFieldTypes.ENEMY].army.warriors).length === 0) {
-        worldNavigationRestart(players[onFieldTypes.ENEMY])
+        battleEnd(players[onFieldTypes.ENEMY])
     } else if (Object.keys(players[onFieldTypes.ALLY].army.warriors).length === 0) {
-        worldNavigationRestart(players[onFieldTypes.ALLY])
+        battleEnd(players[onFieldTypes.ALLY])
     }
-
+    return isKilled
 }
 
 const attackWarrior = (id, type) => {
-    const attackPower = getCurrentWarrior().quantity * getCurrentWarrior().force
+    const attacker = { ...getCurrentWarrior() }
+    const attackPower = attacker.quantity * getCurrentWarrior().force
     players[type].army.defendAttack(id, attackPower, getCurrentWarrior().quantity)
     if (findWarriorById(id).quantity <= 0) {
         players[type].army.killUnit(id)
     }
-    deleteDeadWarriors()
-    nextRound()
+    if (deleteDeadWarriors()) {// restart round when warrior killed someone
+        nextRound(attacker.id)
+    }
+    else nextRound()
 }
 
 const clickOnBoard = ({ element }) => {
