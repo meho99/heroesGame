@@ -1,14 +1,17 @@
-import { fieldWidth, boardSize, onFieldTypes, startFieldX, startFieldY } from './constants'
+import * as THREE from 'three'
+import { fieldWidth, onFieldTypes, startFieldX, startFieldY } from './constants'
 import { boardData } from './battleControl'
 import { scene } from './scene'
-import { addModel} from '../threeConfig'
+import { addModel } from '../threeConfig'
 import { obstacleModels } from '../threeConfig/models'
 import { randomNumber } from '../commonFunctions'
+
+export const obstaclesGroup = new THREE.Group()
 
 const obstaclesQuantitiy = 5
 
 export const obstaclesInit = () => {
-    for(let i=0; i< obstaclesQuantitiy; i++){
+    for (let i = 0; i < obstaclesQuantitiy; i++) {
 
         let randomXPosition = randomNumber(0, boardData.length)
         let randomYPosition = randomNumber(0, boardData.length)
@@ -24,7 +27,7 @@ export const obstaclesInit = () => {
                     position: { x: randomXPosition, y: randomYPosition },
                     id: null
                 }
-                scene.add(addModel(obstacle, { x: startFieldX + fieldWidth * randomXPosition, z: startFieldY + fieldWidth * randomYPosition }))
+                obstaclesGroup.add(addModel(obstacle, { x: startFieldX + fieldWidth * randomXPosition, z: startFieldY + fieldWidth * randomYPosition }))
 
                 isSet = true
 
