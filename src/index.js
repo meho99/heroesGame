@@ -14,7 +14,7 @@ import { addStaticEnemy, allStaticEnemies } from './characters/Enemies/Static/al
 
 import { Building } from './buildings'
 import { addBuilding, allBuildings } from './buildings/allbuildings'
-import { BUILDING_TYPES } from './buildings/buildingTypes'
+import { BUILDING_TYPES } from './buildings/buildingTypes/types'
 
 
 

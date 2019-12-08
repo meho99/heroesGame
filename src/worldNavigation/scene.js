@@ -41,7 +41,7 @@ const map1 = {
 const texture = new THREE.TextureLoader().load(grassTexture);
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
-texture.repeat.set(80, 80);
+texture.repeat.set(30, 30);
 
 
 const boardGeometry = new THREE.PlaneGeometry(map1.size.x, map1.size.z)
