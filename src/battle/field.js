@@ -49,6 +49,9 @@ export const makeBoardField = (type, id, position) => {
         case onFieldTypes.EMPTY:
             field = emptyField(position, fieldColors.WHITE)
             break
+        case onFieldTypes.OBSTACLE:
+            field = emptyField(position, fieldColors.GREY)
+            break
         case onFieldTypes.ALLY:
             textsGroup.add(textInit(`${findWarriorById(id).quantity} x ${findWarriorById(id).name}`, playersColors[onFieldTypes.ALLY], position.x, 20, position.y))
             field = emptyField(position, playersColors[onFieldTypes.ALLY])

@@ -5,9 +5,8 @@ import {
 } from '../threeConfig'
 
 import { scene, camera, cameraControls } from './scene'
-
-import { boardUpdate, boardGroup } from './board'
 import { battleInit } from './battleControl'
+import { boardUpdate, boardGroup } from './board'
 import { HideBottomMenu } from '../userInterface/bottomMenu'
 
 const render = () => {

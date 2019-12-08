@@ -25,6 +25,11 @@ export const addModel = (name, { x, z }) => {
     const container = new THREE.Object3D()
     loadModel(models[name].obj, models[name].mtl, container)
     container.scale.set(models[name].scale, models[name].scale, models[name].scale)
-    container.position.set(x, 0, z)
+    if(models[name].positionCorrections){
+        container.position.set(x+models[name].positionCorrections.x, 0+models[name].positionCorrections.y, z+models[name].positionCorrections.z)
+    }
+    else{
+        container.position.set(x, 0, z)
+    }
     return container
 }

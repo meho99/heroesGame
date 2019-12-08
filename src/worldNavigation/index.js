@@ -93,10 +93,11 @@ const update = () => {
 }
 
 const goToNextRound = () => {
-    currentPlayer.endPlayerRound(scene)
+    if (currentPlayer) currentPlayer.endPlayerRound(scene)
+
+    if (currentPlayer) currentRound += 1
 
     directionVect = new THREE.Vector3(0, 0, 0)
-    currentRound += 1
 
     currentPlayer = allPlayers[findPlayerIndexByCurrentRound(currentRound)]
     currentPlayer.startPlayerRound(scene)
@@ -150,10 +151,10 @@ export const worldNavigationStart = () => {
 }
 
 export const worldNavigationRestart = (killedPlayer) => {
+
+    ShowBottomMenu()
     if (killedPlayer) {
-        console.log(allStaticEnemies)
         killedPlayer.deletePlayer()
-        console.log(allStaticEnemies)
 
         scene.remove(killedPlayer.getContainer())
         if (killedPlayer.getCircle) {
@@ -164,7 +165,6 @@ export const worldNavigationRestart = (killedPlayer) => {
             goToNextRound()
         }
     }
-    ShowBottomMenu()
     setGroupToClick(scene)
     setCurrentScene(scene, camera, cameraControls)
     animateUpdate(update)

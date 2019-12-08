@@ -43,7 +43,7 @@ export class Player {
         const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.2 })
 
         this.circle = new THREE.Mesh(circleGeometry, circleMaterial)
-        this.circle.userData.moveHere = this.round
+        this.circle.userData.moveHere = this.id
 
         this.updateCirclePosition()
     }
@@ -102,7 +102,7 @@ export class Player {
 
     getPlayerMoveVectors = (element, clickPosition, previousClickedPosition) => {
         let clickedPosition = previousClickedPosition
-        if (element && element.userData.moveHere === this.round) {
+        if (element && element.userData.moveHere === this.id) {
 
             this.getPlayerModel().rotation.y = Math.atan2(
                 this.getContainer().position.clone().x - clickedPosition.x,
