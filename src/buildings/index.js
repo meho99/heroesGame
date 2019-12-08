@@ -5,7 +5,7 @@ import { createWindow } from '../threeConfig'
 import { idGenerator } from '../commonFunctions'
 import { removeBuilding } from './allbuildings'
 import { UpdatePlayerDetails } from '../userInterface/bottomMenu'
-import { buildingActions } from './buildingActions'
+import { buildingActions } from './buildingTypes/'
 
 export class Building {
     constructor(type, range, modelName, startPosition, additional) {
@@ -27,7 +27,7 @@ export class Building {
         this.modelDetails = models.find(model => model.name = this.modelName)
         this.container = new THREE.Object3D()
         this.container.add(this.modelDetails.model())
-        this.container.position.set(x , this.FlightHeight + this.modelDetails.positionCorrections.y, z)
+        this.container.position.set(x, this.FlightHeight + this.modelDetails.positionCorrections.y, z)
     }
 
     makeRangeCircle = () => {

@@ -15,6 +15,6 @@ export {
     addBuilding,
     findBuildingIndexById,
     removeBuilding
-    
+
 }
 
