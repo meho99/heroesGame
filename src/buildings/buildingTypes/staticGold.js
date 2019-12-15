@@ -22,8 +22,8 @@ export const actions = {
 }
 export const informationsWindows = ({ additional, removeWindow }) => {
     const collectInfoElemnt = createWindow(
-        'Złoto',
-        `Zebrałeś ${additional.gold} sztuk złota`,
+        'Kryształy',
+        `Zebrałeś ${additional.gold} kryształów`,
         `OK`,
         () => {
             removeWindow('collect')
@@ -31,8 +31,8 @@ export const informationsWindows = ({ additional, removeWindow }) => {
     )
 
     const infoElment = createWindow(
-        'Złoto',
-        `${additional.gold} sztuk`,
+        'Kryształy',
+        `${additional.gold} kryształów`,
         `OK`,
         () => {
             removeWindow('info')

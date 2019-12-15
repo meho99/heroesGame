@@ -33,6 +33,7 @@ addStaticEnemy(new StaticEnemy(10, 'testStaticEnemy', { x: -150, z: -50 }))
 
 addBuilding(new Building(BUILDING_TYPES.STATIC_GOLD, 15, 'testBuilding', { x: -250, z: 0 }, { gold: 10 }))
 addBuilding(new Building(BUILDING_TYPES.STABLE, 25, 'testBuilding', { x: -150, z: 50 }, { value: 30 }))
+addBuilding(new Building(BUILDING_TYPES.GOLD_MINE, 25, 'testBuilding', { x: -50, z: -230 }, { gold: 30 }))
 
 allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
