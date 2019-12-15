@@ -1,11 +1,7 @@
 import * as THREE from 'three'
 
-import { scene } from './scene'
-
 import { makeBoardField } from './field'
-
 import { clearScene } from '../threeConfig'
-
 import { boardData } from './battleControl'
 
 export let boardGroup = new THREE.Group()
