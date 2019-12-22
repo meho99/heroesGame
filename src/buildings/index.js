@@ -20,6 +20,8 @@ export class Building {
         this.type = type
         this.makeInformationWindows()
         this.changeOwnerBlock = false // po nowej rundzie sie odnowi !!
+        this.ownerId = null
+        this.dailyAction = this.createDailyAction
     }
 
     findModel = ({ x, z }) => {
@@ -45,16 +47,16 @@ export class Building {
         this.container.position.set(this.container.position.x + this.modelDetails.positionCorrections.x, this.FlightHeight + this.modelDetails.positionCorrections.y, this.container.position.z + this.modelDetails.positionCorrections.z)
     }
 
-    changeCircleColor = (color)=>{
+    changeCircleColor = (color) => {
         this.circle.material.color.setHex(color)
-    } 
+    }
 
     setChangeOwnerBlock = (value) => {
         this.changeOwnerBlock = value
     }
 
     makeInformationWindows = () => {
-        this.informationWindows = buildingsWindows[this.type]({...this})
+        this.informationWindows = buildingsWindows[this.type]({ ...this })
     }
 
     changeInformationWindows = (name, element) => {
@@ -68,8 +70,16 @@ export class Building {
         }
     }
 
+    changeOwnerId = (id) => {
+        this.ownerId = id
+    }
+
     updateCirclePosition = () => {
         this.circle.position.set(this.container.position.x, 0.1, this.container.position.z)
+    }
+
+    createDailyAction = () => {
+        buildingActions[this.type].dailyAction({ ...this, UpdatePlayerDetails })
     }
 
     addWindow = (name) => {

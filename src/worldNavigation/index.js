@@ -102,6 +102,12 @@ const goToNextRound = () => {
     currentPlayer = allPlayers[findPlayerIndexByCurrentRound(currentRound)]
     currentPlayer.startPlayerRound(scene)
 
+    for (const building of allBuildings) {
+        if(building.ownerId===currentPlayer.id){
+            building.dailyAction()
+        }
+    }
+
     clickedPosition = new THREE.Vector3(currentPlayer.getContainer().position.x, currentPlayer.FlightHeight, currentPlayer.getContainer().position.z)
 }
 
