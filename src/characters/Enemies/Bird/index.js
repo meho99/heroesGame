@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { birdModels } from './birdModels'
 import { removeBird } from './allBirds'
 import { createWindow } from '../../../threeConfig'
-import { idGenerator } from '../../../commonFunctions'
+import { idGenerator, makeArmyInfo } from '../../../commonFunctions'
 import { battleStart } from '../../../battle'
 
 import { Army } from '../../Army'
@@ -17,12 +17,9 @@ export class Bird {
         this.FlightHeight = 10
         this.speed = 0.6
         this.directionVect = new THREE.Vector3(0, 0, 0)
-
         this.type = 'enemy'
         this.name = modelName
-
         this.army = new Army()
-
         this.findBirdModel(startPosition)
         this.makeBirdRangeCircle()
         this.makeInformationWindows()
@@ -54,6 +51,12 @@ export class Bird {
         this.birdContainer.position.setX(this.birdContainer.position.x + this.range)
     }
 
+    updateWarriors = (type, number) => {
+        if (type && number)
+            this.army.addWarriors(type, number)
+        this.makeInformationWindows()
+    }
+
     deletePlayer = () => {
         removeBird(this.id)
     }
@@ -71,7 +74,7 @@ export class Bird {
         const armyInfoElement = createWindow(
             'Bird',
             `dangerousity level: ${'jakis level'} </br>
-            Tutaj bedzie mniej wiecej wypisana armia czy cos`,
+            ${makeArmyInfo(this.army.warriors)}`,
             `OK`,
             () => {
                 this.removeWindow('army')

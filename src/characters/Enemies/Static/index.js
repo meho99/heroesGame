@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { staticEnemyModels } from './staticEnemiesModel'
 import { removeStaticEnenmy } from './allStaticEnemies'
 import { createWindow } from '../../../threeConfig'
-import { idGenerator } from '../../../commonFunctions'
+import { idGenerator, makeArmyInfo } from '../../../commonFunctions'
 import { battleStart } from '../../../battle'
 
 import { Army } from '../../Army'
@@ -17,12 +17,9 @@ export class StaticEnemy {
         this.FlightHeight = 1
         this.speed = 0.6
         this.directionVect = new THREE.Vector3(0, 0, 0)
-
         this.type = 'enemy'
         this.name = modelName
-
         this.army = new Army()
-
         this.findStaticEnemyModel(startPosition)
         this.makeStaticEnemyRangeCircle()
         this.makeInformationWindows()
@@ -58,6 +55,12 @@ export class StaticEnemy {
 
     }
 
+    updateWarriors = (type, number) => {
+        if (type && number)
+            this.army.addWarriors(type, number)
+        this.makeInformationWindows()
+    }
+
     makeInformationWindows = () => {
         const fightInfoElement = createWindow(
             'Fight',
@@ -71,7 +74,7 @@ export class StaticEnemy {
         const armyInfoElement = createWindow(
             'staticEnemy',
             `dangerousity level: ${'jakis level'} </br>
-            Tutaj bedzie mniej wiecej wypisana armia czy cos`,
+            ${makeArmyInfo(this.army.warriors)}`,
             `OK`,
             () => {
                 this.removeWindow('army')

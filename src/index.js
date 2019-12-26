@@ -39,12 +39,15 @@ allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
 allPlayers[0].army.addWarriors('GOBLIN', 2)
 
-allBirds[0].army.addWarriors('AMATEUR', 5)
+allBirds[0].updateWarriors('AMATEUR', 5)
 
-console.log(allBirds[0], allPlayers[0])
-allStaticEnemies[0].army.addWarriors('AMATEUR', 2)
-allStaticEnemies[1].army.addWarriors('GOBLIN', 2)
+allStaticEnemies[0].updateWarriors('AMATEUR', 2)
+allStaticEnemies[1].updateWarriors('GOBLIN', 2)
 
+allBuildings[0].updateWarriors('GOBLIN', 1)
+allBuildings[0].updateWarriors('AMATEUR', 1)
+allBuildings[1].updateWarriors('AMATEUR', 1)
+allBuildings[2].updateWarriors('AMATEUR', 1)
 worldNavigationStart()
 
 //battleStart(allPlayers[0], allBirds[0])
