@@ -34,7 +34,12 @@ const map1 = {
         {
             name: 'TREE1',
             position: { x: 40, z: 10 }
+        },
+        {
+            name: 'Tree3',
+            position: { x: 20, z: 40 }
         }
+
     ]
 }
 

@@ -159,7 +159,7 @@ export const worldNavigationStart = () => {
 export const worldNavigationRestart = (killedPlayer) => {
 
     ShowBottomMenu()
-    if (killedPlayer) {
+    if (killedPlayer && killedPlayer.type === 'player' || killedPlayer.type === 'enemy' ) {
         killedPlayer.deletePlayer()
 
         scene.remove(killedPlayer.getContainer())

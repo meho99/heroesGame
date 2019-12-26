@@ -6,6 +6,7 @@ import { idGenerator } from '../commonFunctions'
 import { removeBuilding } from './allbuildings'
 import { UpdatePlayerDetails } from '../userInterface/bottomMenu'
 import { buildingActions, buildingsWindows } from './buildingTypes/'
+import { Army } from '../characters/Army'
 
 export class Building {
     constructor(type, range, modelName, startPosition, additional) {
@@ -18,10 +19,12 @@ export class Building {
         this.findModel(startPosition)
         this.makeRangeCircle()
         this.type = type
-        this.makeInformationWindows()
+        this.army = new Army()
         this.changeOwnerBlock = false // po nowej rundzie sie odnowi !!
         this.ownerId = null
         this.dailyAction = this.createDailyAction
+        this.makeInformationWindows()
+
     }
 
     findModel = ({ x, z }) => {
@@ -53,6 +56,12 @@ export class Building {
 
     setChangeOwnerBlock = (value) => {
         this.changeOwnerBlock = value
+    }
+
+    updateWarriors = (type, number) => {
+        if (type && number)
+            this.army.addWarriors(type, number)
+        this.makeInformationWindows()
     }
 
     makeInformationWindows = () => {
