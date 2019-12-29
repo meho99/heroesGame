@@ -1,43 +1,78 @@
 import * as THREE from 'three'
 import { makeInitialScene, addModel } from '../threeConfig'
-import grassTexture from '../worldElements/textures/grass.jpg'
+import grassTexture from '../worldElements/textures/all.png'
 
 export const { scene, camera, cameraControls } = makeInitialScene()
 
 const map1 = {
     size: {
-        x: 5000,
-        z: 5000
+        x: 500,
+        z: 500
     },
     elements: [
-        {
-            name: 'Crystal',
-            position: { x: 50, z: 70 }
-        },
-
         {
             name: 'TREE2',
             position: { x: 10, z: 10 }
         },
         {
             name: 'TREE1',
-            position: { x: 20, z: 10 }
+            position: { x: 120, z: 10 }
         },
         {
             name: 'TREE1',
-            position: { x: 30, z: 10 }
+            position: { x: -40, z: 160 }
         },
         {
             name: 'TREE1',
-            position: { x: 40, z: 10 }
+            position: { x: 220, z: 210 }
         },
         {
             name: 'TREE1',
-            position: { x: 40, z: 10 }
+            position: { x: -40, z: 160 }
+        },
+        {
+            name: 'TREE1',
+            position: { x: -60, z: 160 }
+        },
+        {
+            name: 'TREE1',
+            position: { x: -80, z: 160 }
+        },
+        {
+            name: 'TREE1',
+            position: { x: -100, z: 160 }
+        },
+        {
+            name: 'TREE1',
+            position: { x: -40, z: 180 }
+        },
+        {
+            name: 'TREE1',
+            position: { x: -60, z: 180 }
+        },
+        {
+            name: 'TREE1',
+            position: { x: -80, z: 180 }
+        },
+        {
+            name: 'TREE1',
+            position: { x: -100, z: 180 }
         },
         {
             name: 'Tree3',
-            position: { x: 20, z: 40 }
+            position: { x: 120, z: -220 }
+        },
+        {
+            name: 'BATTLEROCK',
+            position: { x: 20, z: -120 }
+        },
+        {
+            name: 'BATTLEROCK',
+            position: { x: 220, z: -20 }
+        },
+        {
+            name: 'BATTLEROCK',
+            position: { x: -200, z: 200 }
         }
 
     ]
@@ -46,7 +81,7 @@ const map1 = {
 const texture = new THREE.TextureLoader().load(grassTexture);
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
-texture.repeat.set(30, 30);
+texture.repeat.set(1, 1)
 
 
 const boardGeometry = new THREE.PlaneGeometry(map1.size.x, map1.size.z)
