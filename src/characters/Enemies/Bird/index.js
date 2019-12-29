@@ -29,9 +29,20 @@ export class Bird {
         this.modelDetails = birdModels.find(model => model.name = this.modelName)
 
         this.birdContainer = new THREE.Object3D()
-        this.birdModel = new THREE.Mesh(this.modelDetails.geometry, this.modelDetails.material)
 
-        this.birdContainer.add(this.birdModel)
+        this.birdHitPoint = new THREE.Mesh(this.modelDetails.geometry, this.modelDetails.material)
+        this.birdHitPoint.visible = false
+
+        this.birdBodyContainer = new THREE.Object3D()
+
+        this.model = this.modelDetails.model()
+
+        this.birdBodyContainer.add(this.model)
+        this.birdBodyContainer.add(this.birdHitPoint)
+
+        this.model.rotation.y = this.modelDetails.rotationCorrections
+
+        this.birdContainer.add(this.birdBodyContainer)
         this.birdContainer.position.set(x, this.FlightHeight, z)
     }
 
@@ -102,7 +113,7 @@ export class Bird {
     }
 
     getBirdDirectionVector = (target) => {
-        this.birdModel.rotation.y = Math.atan2(
+        this.birdBodyContainer.rotation.y = Math.atan2(
             this.birdContainer.position.clone().x - target.position.x,
             this.birdContainer.position.clone().z - target.position.z
         )
@@ -116,10 +127,10 @@ export class Bird {
         if (this.circle.position.clone().distanceTo(playerContainer.position.clone()) < this.range) {
             this.directionVect = this.getBirdDirectionVector(playerContainer)
         }
-        else if (this.birdContainer.position.clone().distanceTo(this.circle.position.clone()) >= this.range - this.birdModel.geometry.parameters.width) {
+        else if (this.birdContainer.position.clone().distanceTo(this.circle.position.clone()) >= this.range - this.birdHitPoint.geometry.parameters.width) {
             this.directionVect = this.getBirdDirectionVector(this.circle)
         }
-        if (this.birdContainer.position.clone().distanceTo(playerContainer.position.clone()) <= this.birdModel.geometry.parameters.width / 2 + playerModel.geometry.parameters.width) {
+        if (this.birdContainer.position.clone().distanceTo(playerContainer.position.clone()) <= this.birdHitPoint.geometry.parameters.width / 2 + playerModel.geometry.parameters.width) {
             battleStart(player, this)
             this.addWindow('fight')
 
@@ -143,7 +154,7 @@ export class Bird {
         return this.birdContainer
     }
     getModel = () => {
-        return this.birdModel
+        return this.birdHitPoint
     }
     getCircle = () => {
         return this.circle
