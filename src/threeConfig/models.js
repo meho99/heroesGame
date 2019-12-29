@@ -18,6 +18,9 @@ import rock1 from '../worldElements/models/rock1.obj'
 import bushMtl from '../worldElements/models/Bush3.1.mtl'
 import bush from '../worldElements/models/Bush3.1.obj'
 
+import birdMtl from '../worldElements/models/rock1.mtl'
+import bird from '../worldElements/models/bird.obj'
+
 export const obstacles = {
     BATTLEROCK: {
         obj: rock1,
@@ -30,7 +33,15 @@ export const obstacles = {
         mtl: treeModel2Mtl,
         scale: 8
     },
-    }
+}
+
+export const enemies = {
+    BIRD: {
+        obj: bird,
+        mtl: birdMtl,
+        scale: 1.5,
+        rotationCorrections: Math.PI
+    },
 }
 
 export const models = {
@@ -61,7 +72,10 @@ export const models = {
         mtl: crystalModelMtl,
         scale: 30
     },
-    ...obstacles
+
+    ...obstacles,
+    ...enemies
+
 }
 
 export const obstacleModels = Object.keys(obstacles)
