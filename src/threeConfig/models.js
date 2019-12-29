@@ -12,17 +12,24 @@ import wiatrak from '../worldElements/models/wiatrak.obj'
 import tree1Mtl from '../worldElements/models/Tree1.1.mtl'
 import tree1 from '../worldElements/models/Tree1.1.obj'
 
+import rock1Mtl from '../worldElements/models/rock1.mtl'
+import rock1 from '../worldElements/models/rock1.obj'
+
+import bushMtl from '../worldElements/models/Bush3.1.mtl'
+import bush from '../worldElements/models/Bush3.1.obj'
+
 export const obstacles = {
-    TESTOBSTACLE1: {
-        obj: crystalModel,
-        mtl: crystalModelMtl,
-        scale: 10
+    BATTLEROCK: {
+        obj: rock1,
+        mtl: rock1Mtl,
+        scale: 4,
+        positionCorrections: { x: -2, y: 0, z: 0 }
     },
-    TESTOBSTACLE2: {
-        obj: wiatrak,
-        mtl: wiatrakMtl,
-        scale: 20,
-        positionCorrections: { x: -2, y: -3, z: 5.5 }
+    TREE121: {
+        obj: treeModel2,
+        mtl: treeModel2Mtl,
+        scale: 8
+    },
     }
 }
 
@@ -46,7 +53,7 @@ export const models = {
     Tree3: {
         obj: tree1,
         mtl: tree1Mtl,
-        scale: 10,
+        scale: 5,
         positionCorrections: { x: -1, y: -3, z: 3.5 }
     },
     Crystal: {

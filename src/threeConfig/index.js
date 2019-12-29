@@ -38,18 +38,19 @@ export let currentScene
 export let currentCamera
 export let currentCameraControls
 
+
 export const makeInitialScene = (light, camera, controls) => {
     // ----- scene -----
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color(0x00ffff)
+    scene.background = new THREE.Color(0x000000)
 
-    scene.fog = new THREE.Fog(0x00ffff, 850, 1050)
+    //scene.fog = new THREE.Fog(0x1B7F97, 740, 760)
 
     // ----- lights -----
     if (!light) {
         const defaultLight = new THREE.DirectionalLight(0xffffff, 1.2)
         scene.add(defaultLight)
-        const defaultLight2 = new THREE.AmbientLight( 0xffffff, 0.1 )
+        const defaultLight2 = new THREE.AmbientLight(0xffffff, 0.1)
         scene.add(defaultLight2)
     } else {
         scene.add(light)
@@ -73,7 +74,7 @@ export const makeInitialScene = (light, camera, controls) => {
         defaultControls.enabled = true
         defaultControls.enableDamping = true
         defaultControls.rotateSpeed = 0.2
-        defaultControls.maxDistance = 300
+        defaultControls.maxDistance = 220
         defaultControls.minDistance = 200
         defaultControls.maxPolarAngle = Math.PI / 3
         defaultControls.mouseButtons = {
