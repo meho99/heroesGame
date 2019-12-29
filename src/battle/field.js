@@ -15,8 +15,8 @@ import {
 } from './constants'
 
 const textInit = (text, color, x, y, z) => {
-    var sprite = new SpriteText2D(text, { align: textAlign.center, font: '50px Arial', fillStyle: color, antialias: true })
-    sprite.scale.set(0.08, 0.08, 0.08)
+    var sprite = new SpriteText2D(text, { align: textAlign.center, font: '35px Monospace', fillStyle: color, antialias: true })
+    sprite.scale.set(0.1, 0.1, 0.1)
     sprite.position.set(startFieldX + fieldWidth * x, y, startFieldY + fieldWidth * z)
     return sprite;
 }

@@ -1,20 +1,28 @@
 import * as THREE from 'three'
-import { fieldWidth, onFieldTypes, startFieldX, startFieldY } from './constants'
+import {
+    fieldWidth,
+    onFieldTypes,
+    startFieldX,
+    startFieldY,
+    boardHeight,
+    boardWidth,
+    minObstacles,
+    maxObstacles
+} from './constants'
 import { boardData } from './battleControl'
-import { scene } from './scene'
 import { addModel } from '../threeConfig'
 import { obstacleModels } from '../threeConfig/models'
 import { randomNumber } from '../commonFunctions'
 
 export const obstaclesGroup = new THREE.Group()
 
-const obstaclesQuantitiy = 5
+const obstaclesQuantitiy = randomNumber(minObstacles, maxObstacles)
 
 export const obstaclesInit = () => {
     for (let i = 0; i < obstaclesQuantitiy; i++) {
 
-        let randomXPosition = randomNumber(0, boardData.length)
-        let randomYPosition = randomNumber(0, boardData.length)
+        let randomXPosition = randomNumber(0, boardWidth)
+        let randomYPosition = randomNumber(0, boardHeight)
 
         const obstacle = obstacleModels[randomNumber(0, obstacleModels.length)]
 

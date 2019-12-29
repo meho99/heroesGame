@@ -30,9 +30,9 @@ addBird(new Bird(100, 'testBird', { x: -100, z: -150 }))
 addStaticEnemy(new StaticEnemy(10, 'testStaticEnemy', { x: 150, z: 50 }))
 addStaticEnemy(new StaticEnemy(10, 'testStaticEnemy', { x: -150, z: -50 }))
 
-addBuilding(new Building(BUILDING_TYPES.STATIC_GOLD, 15, 'testBuilding', { x: -250, z: 0 }, { gold: 10 }))
-addBuilding(new Building(BUILDING_TYPES.STABLE, 25, 'testBuilding', { x: -150, z: 50 }, { value: 30 }))
-addBuilding(new Building(BUILDING_TYPES.GOLD_MINE, 25, 'testBuilding', { x: -50, z: -230 }, { gold: 30 }))
+addBuilding(new Building(BUILDING_TYPES.STATIC_GOLD, 10, 'testBuilding', { x: -250, z: 0 }, { gold: 10 }))
+addBuilding(new Building(BUILDING_TYPES.STABLE, 15, 'testBuilding', { x: -150, z: 50 }, { value: 30 }))
+addBuilding(new Building(BUILDING_TYPES.GOLD_MINE, 15, 'testBuilding', { x: -50, z: -230 }, { gold: 30 }))
 
 allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
@@ -49,7 +49,7 @@ allBuildings[1].updateWarriors('AMATEUR', 1)
 allBuildings[2].updateWarriors('AMATEUR', 1)
 worldNavigationStart()
 
-// battleStart(allPlayers[0], allBirds[0])
+//battleStart(allPlayers[0], allBirds[0])
 
 // setTimeout(() => {
 //     worldNavigationStart()

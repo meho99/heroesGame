@@ -1,7 +1,7 @@
 import treeModel from '../worldElements/models/Tree.1.4.obj'
 import treeModelMtl from '../worldElements/models/Tree.1.4.mtl'
 import treeModel2Mtl from '../worldElements/models/Tree1.222.mtl'
-import treeModel2 from '../worldElements/models/tree1.222.obj'
+import treeModel2 from '../worldElements/models/Tree1.222.obj'
 
 import crystalModelMtl from '../worldElements/models/Crystal.mtl'
 import crystalModel from '../worldElements/models/Crystal.obj'
@@ -31,7 +31,7 @@ export const obstacles = {
     TREE121: {
         obj: treeModel2,
         mtl: treeModel2Mtl,
-        scale: 8
+        scale: 6
     },
 }
 

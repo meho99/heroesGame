@@ -133,7 +133,7 @@ export class Bird {
         if (this.birdContainer.position.clone().distanceTo(playerContainer.position.clone()) <= this.birdHitPoint.geometry.parameters.width / 2 + playerModel.geometry.parameters.width) {
             battleStart(player, this)
             this.addWindow('fight')
-
+            
         }
         this.birdContainer.translateOnAxis(this.directionVect, this.speed)
     }

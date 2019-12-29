@@ -1,4 +1,4 @@
-import { onFieldTypes, emptyFieldData, boardSize, playersColors } from './constants'
+import { onFieldTypes, emptyFieldData, playersColors, boardWidth, boardHeight } from './constants'
 import { battleEnd } from './'
 import { randomNumber } from '../commonFunctions'
 import { enableMouseEventsOnScene, listenersName, changeCursor } from '../threeConfig'
@@ -30,9 +30,9 @@ export const nextRound = (warriorId) => {
 
 const makeEmptyBoard = () => {
     boardData = []
-    for (let y = 0; y < boardSize; y++) {
+    for (let y = 0; y < boardHeight; y++) {
         boardData[y] = []
-        for (let x = 0; x < boardSize; x++) {
+        for (let x = 0; x < boardWidth; x++) {
             boardData[y][x] = { ...emptyFieldData, position: { x, y } }
         }
     }
@@ -49,7 +49,7 @@ const setWarriorsStartPosition = (player, side) => {
     if (side === onFieldTypes.ALLY) {
         range = { min: 0, max: 2 }
     } else {
-        range = { min: boardSize - 2, max: boardSize }
+        range = { min: boardWidth - 2, max: boardWidth }
     }
     const allWarriorsGroups = []
     for (const group of Object.keys(player.army.warriors)) {
@@ -68,7 +68,7 @@ const setWarriorsStartPosition = (player, side) => {
 
             } else {
                 randomXPosition = randomNumber(range.min, range.max)
-                randomYPosition = randomNumber(0, boardSize)
+                randomYPosition = randomNumber(0, boardHeight)
             }
         }
     }
@@ -91,7 +91,7 @@ const showWarriorRange = (warrior, type, clear = [onFieldTypes.AVAILABLE_WALK, o
         let positionsTab = [{ x: warrior.position.x, y: warrior.position.y }]
 
         const pushPosition = (x, y, tab) => {
-            if ((x >= 0 && x < boardSize) && (y >= 0 && y < boardSize) && boardData[y][x].type === onFieldTypes.EMPTY) {
+            if ((x >= 0 && x < boardWidth) && (y >= 0 && y < boardHeight) && boardData[y][x].type === onFieldTypes.EMPTY) {
                 tab.push({ x, y })
                 boardData[y][x].type = type
             }
@@ -142,6 +142,7 @@ const moveCurrentPlayerToPosition = (position) => {
 const checkIfCanAttack = () => {
     warriorsAvailableToAttack = []
     const { x, y } = getCurrentWarrior().position
+    console.log(x, y)
     const opponentFieldType = boardData[y][x].type === onFieldTypes.ENEMY ? onFieldTypes.ALLY : onFieldTypes.ENEMY
 
     const checkIfEnemyStandsHere = (y, x) => boardData[y][x].type === opponentFieldType
@@ -150,7 +151,7 @@ const checkIfCanAttack = () => {
     for (const field of nearFields) {
         let fieldY = y + field[0]
         let fieldX = x + field[1]
-        if (fieldX >= 0 && fieldX < boardData.length && fieldY >= 0 && fieldY < boardData.length) {
+        if (fieldX >= 0 && fieldX < boardWidth && fieldY >= 0 && fieldY < boardHeight) {
             if (checkIfEnemyStandsHere(fieldY, fieldX)) {
                 warriorsAvailableToAttack.push(boardData[fieldY][fieldX].id)
             }

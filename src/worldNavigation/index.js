@@ -103,7 +103,7 @@ const goToNextRound = () => {
     currentPlayer.startPlayerRound(scene)
 
     for (const building of allBuildings) {
-        if(building.ownerId===currentPlayer.id){
+        if (building.ownerId === currentPlayer.id) {
             building.dailyAction()
         }
     }
@@ -159,7 +159,7 @@ export const worldNavigationStart = () => {
 export const worldNavigationRestart = (killedPlayer) => {
 
     ShowBottomMenu()
-    if (killedPlayer && killedPlayer.type === 'player' || killedPlayer.type === 'enemy' ) {
+    if (killedPlayer && (killedPlayer.type === 'player' || killedPlayer.type === 'enemy')) {
         killedPlayer.deletePlayer()
 
         scene.remove(killedPlayer.getContainer())
