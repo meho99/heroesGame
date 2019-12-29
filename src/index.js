@@ -37,6 +37,7 @@ addBuilding(new Building(BUILDING_TYPES.GOLD_MINE, 15, 'testBuilding', { x: -50,
 allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
 allPlayers[0].army.addWarriors('GOBLIN', 2)
+allPlayers[0].army.addWarriors('ARCHER', 2)
 
 allBirds[0].updateWarriors('AMATEUR', 5)
 
