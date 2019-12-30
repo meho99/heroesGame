@@ -29,12 +29,10 @@ export const nextRound = (warriorId) => {
     }
     checkWarriorAbilities()
     showWarriorRange(getCurrentWarrior(), onFieldTypes.AVAILABLE_WALK)
-
-    //console.log(allWarriors, warriorIndex)
-    for (let i = 0; i < 3; i++) {
-        const warriorIndex = ((currentRound - 1 + i) % allWarriors.length)
-        console.log(allWarriors[warriorIndex])
-    }
+    // for (let i = 0; i < 3; i++) {
+    //     const warriorIndex = ((currentRound - 1 + i) % allWarriors.length)
+    //     console.log(allWarriors[warriorIndex])
+    // }
 }
 
 const makeEmptyBoard = () => {
@@ -257,7 +255,6 @@ const shootWarrior = (id, type) => {
     const attacker = { ...getCurrentWarrior() }
     const damage = randomNumber(getCurrentWarrior().shootDamage.min, getCurrentWarrior().shootDamage.max)
     const shootPower = attacker.quantity * damage
-    console.log('SHOOT', shootPower)
     players[type].army.defendAttack(id, shootPower, getCurrentWarrior().quantity)
     if (findWarriorById(id).quantity <= 0) {
         players[type].army.killUnit(id)
@@ -306,7 +303,9 @@ export const battleInit = (player, enemy) => {
     setWarriorsStartPosition(players[onFieldTypes.ENEMY], onFieldTypes.ENEMY)
 
 
-    allWarriors.sort(() => Math.random() - 0.5)
+    allWarriors.sort((a, b) =>
+        b.initiative > a.initiative ? 1 : (a.initiative > b.initiative ? -1 : 0)
+    )
 
     nextRound()
 

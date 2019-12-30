@@ -9,6 +9,7 @@ const warriorTypes = {
         name: 'Amateur',
         maxHealth: 12,
         currentHealth: 0,
+        initiative: 5,
         defend: 2,
         damage: {
             min: 3,
@@ -22,6 +23,7 @@ const warriorTypes = {
         range: 6,
         name: 'Goblin',
         maxHealth: 8,
+        initiative: 6,
         defend: 1,
         currentHealth: 0,
         damage: {
@@ -36,6 +38,7 @@ const warriorTypes = {
         range: 4,
         name: 'archer',
         maxHealth: 10,
+        initiative: 7,
         currentHealth: 0,
         defend: 1,
         damage: {
