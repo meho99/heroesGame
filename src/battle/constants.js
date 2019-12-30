@@ -1,10 +1,14 @@
 export const fieldWidth = 12
 export const fieldSpace = 1
 
-export const boardSize = 16
+export const boardWidth = 16
+export const boardHeight = 11
 
-export const startFieldX = - boardSize / 2 * fieldWidth
-export const startFieldY = - boardSize / 2 * fieldWidth
+export const startFieldX = - (boardWidth - 1) / 2 * fieldWidth
+export const startFieldY = - (boardHeight - 1) / 2 * fieldWidth
+
+export const minObstacles = 5
+export const maxObstacles = 8
 
 export const fieldColors = {
     WHITE: 0xfffff,

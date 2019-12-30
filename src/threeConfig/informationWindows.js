@@ -1,4 +1,5 @@
 import { sceneWidth, sceneHeight } from './'
+import { changeCursor } from './cursors'
 
 export const createWindow = (header, text, button, onClickAction, styleOverrides = {}) => {
     const { containerStyles, headerStyles, textStyles, buttonStyles } = styleOverrides
@@ -10,6 +11,9 @@ export const createWindow = (header, text, button, onClickAction, styleOverrides
     windowContainer.addEventListener('contextmenu', (e) => {
         e.preventDefault()
         return false
+    })
+    windowContainer.addEventListener('mousemove', () => {
+        changeCursor('basic')
     })
     const windowContainerStyles = {
         position: 'absolute',

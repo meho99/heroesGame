@@ -39,7 +39,7 @@ export let currentCamera
 export let currentCameraControls
 
 
-export const makeInitialScene = (light, camera, controls) => {
+export const makeInitialScene = ({ light, camera, controls } = {}) => {
     // ----- scene -----
     const scene = new THREE.Scene()
     scene.background = new THREE.Color(0x000000)
@@ -75,6 +75,7 @@ export const makeInitialScene = (light, camera, controls) => {
         defaultControls.enableDamping = true
         defaultControls.rotateSpeed = 0.2
         defaultControls.maxDistance = 220
+        defaultControls.position0 = (0, 0, 0)
         defaultControls.minDistance = 200
         defaultControls.maxPolarAngle = Math.PI / 3
         defaultControls.mouseButtons = {
@@ -112,7 +113,8 @@ let renderFunction = () => { }
 const animate = () => {
 
     if (currentCamera.position.y < 0) currentCamera.position.y = 0
-    currentCameraControls.update()
+    if (currentCameraControls)
+        currentCameraControls.update()
     renderFunction()
     renderScene(currentScene, currentCamera)
     window.requestAnimationFrame(animate)

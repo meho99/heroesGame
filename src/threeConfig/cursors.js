@@ -1,8 +1,10 @@
 
 import swordImg from './assets/swords.png'
+import bowImg from './assets/bow.png'
 
 const cursors = {
-    sword: swordImg
+    sword: swordImg,
+    bow: bowImg
 }
 
 export const changeCursor = (name) => {
