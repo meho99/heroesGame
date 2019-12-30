@@ -43,7 +43,7 @@ export class Army {
             `ilość: ${warrior.quantity} </br>
             gracz: ${playerName}</br>
             punkty życia: ${warrior.currentHealth}</br>
-            siła: ${warrior.force} </br>
+            obrażenia: ${warrior.damage.min}-${warrior.damage.max} </br>
             zasięg: ${warrior.range}
             `,
             `OK`,

@@ -29,6 +29,12 @@ export const nextRound = (warriorId) => {
     }
     checkWarriorAbilities()
     showWarriorRange(getCurrentWarrior(), onFieldTypes.AVAILABLE_WALK)
+
+    //console.log(allWarriors, warriorIndex)
+    for (let i = 0; i < 3; i++) {
+        const warriorIndex = ((currentRound - 1 + i) % allWarriors.length)
+        console.log(allWarriors[warriorIndex])
+    }
 }
 
 const makeEmptyBoard = () => {
@@ -235,7 +241,8 @@ const deleteDeadWarriors = () => {
 
 const attackWarrior = (id, type) => {
     const attacker = { ...getCurrentWarrior() }
-    const attackPower = attacker.quantity * getCurrentWarrior().force
+    const damage = randomNumber(getCurrentWarrior().damage.min, getCurrentWarrior().damage.max)
+    const attackPower = attacker.quantity * damage
     players[type].army.defendAttack(id, attackPower, getCurrentWarrior().quantity)
     if (findWarriorById(id).quantity <= 0) {
         players[type].army.killUnit(id)
@@ -248,7 +255,9 @@ const attackWarrior = (id, type) => {
 
 const shootWarrior = (id, type) => {
     const attacker = { ...getCurrentWarrior() }
-    const shootPower = attacker.quantity * getCurrentWarrior().shootDamage
+    const damage = randomNumber(getCurrentWarrior().shootDamage.min, getCurrentWarrior().shootDamage.max)
+    const shootPower = attacker.quantity * damage
+    console.log('SHOOT', shootPower)
     players[type].army.defendAttack(id, shootPower, getCurrentWarrior().quantity)
     if (findWarriorById(id).quantity <= 0) {
         players[type].army.killUnit(id)
@@ -266,12 +275,12 @@ const clickOnBoard = ({ element }) => {
     const opponentFieldType = getOpponentFieldType()
 
     if (element && element.userData) {
-        if (element.userData.type === onFieldTypes.AVAILABLE_WALK)
-            moveCurrentPlayerToPosition(element.userData.position)
         if (warriorsAvailableToAttack.includes(element.userData.id))
             attackWarrior(element.userData.id, element.userData.type)
-        if (avilableShoot && element.userData.type === opponentFieldType)
+        else if (avilableShoot && element.userData.type === opponentFieldType)
             shootWarrior(element.userData.id, element.userData.type)
+        else if (element.userData.type === onFieldTypes.AVAILABLE_WALK)
+            moveCurrentPlayerToPosition(element.userData.position)
     }
 }
 

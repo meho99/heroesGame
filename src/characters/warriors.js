@@ -5,12 +5,15 @@ export const WARRIOR_ABILITIES = {
 
 const warriorTypes = {
     AMATEUR: {
-        range: 4,
+        range: 3,
         name: 'Amateur',
         maxHealth: 12,
         currentHealth: 0,
         defend: 2,
-        force: 5,
+        damage: {
+            min: 3,
+            max: 6
+        },
         abilities: [
             WARRIOR_ABILITIES.ATTACKER
         ]
@@ -21,7 +24,10 @@ const warriorTypes = {
         maxHealth: 8,
         defend: 1,
         currentHealth: 0,
-        force: 3,
+        damage: {
+            min: 2,
+            max: 4
+        },
         abilities: [
             WARRIOR_ABILITIES.ATTACKER
         ]
@@ -32,8 +38,14 @@ const warriorTypes = {
         maxHealth: 10,
         currentHealth: 0,
         defend: 1,
-        force: 2,
-        shootDamage: 3,
+        damage: {
+            min: 2,
+            max: 4
+        },
+        shootDamage: {
+            min: 2,
+            max: 5
+        },
         abilities: [
             WARRIOR_ABILITIES.ATTACKER,
             WARRIOR_ABILITIES.SHOOTER
