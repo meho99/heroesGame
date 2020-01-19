@@ -18,8 +18,8 @@ import rock1 from '../worldElements/models/rock1.obj'
 import bushMtl from '../worldElements/models/Bush3.1.mtl'
 import bush from '../worldElements/models/Bush3.1.obj'
 
-import birdMtl from '../worldElements/models/rock1.mtl'
-import bird from '../worldElements/models/bird.obj'
+import peasant from '../worldElements/models/peasant.obj'
+import peasantMtl from '../worldElements/models/peasant.mtl'
 
 export const obstacles = {
     BATTLEROCK: {
@@ -37,11 +37,16 @@ export const obstacles = {
 
 export const enemies = {
     BIRD: {
-        obj: bird,
-        mtl: birdMtl,
-        scale: 1.5,
-        rotationCorrections: Math.PI
+        obj: peasant,
+        mtl: peasantMtl,
+        scale: 3,
+        rotationCorrections: Math.PI / 2
     },
+    PEASANT: {
+        obj: peasant,
+        mtl: peasantMtl,
+        scale: 5
+    }
 }
 
 export const models = {

@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { addModel } from '../../../threeConfig'
 import { enemies as modelsDetails } from '../../../threeConfig/models'
-console.log(modelsDetails)
 export const birdModels = [
     {
         id: 0,

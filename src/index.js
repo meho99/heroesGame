@@ -24,11 +24,11 @@ listenersStart()
 addPlayer(new Player('Player 1', 100, 'testCube1', { x: -100, z: 100 }))
 addPlayer(new Player('Player 3', 70, 'testCube1', { x: 120, z: -120 }))
 
-addBird(new Bird(50, 'testBird', { x: 100, z: 150 }))
-addBird(new Bird(100, 'testBird', { x: -100, z: -150 }))
+addBird(new Bird(50, 'BIRD', { x: 100, z: 150 }))
+addBird(new Bird(100, 'BIRD', { x: -100, z: -150 }))
 
-addStaticEnemy(new StaticEnemy(10, 'testStaticEnemy', { x: 150, z: 50 }))
-addStaticEnemy(new StaticEnemy(10, 'testStaticEnemy', { x: -150, z: -50 }))
+addStaticEnemy(new StaticEnemy(10, 'PEASANT', { x: 150, z: 50 }))
+addStaticEnemy(new StaticEnemy(10, 'PEASANT', { x: -150, z: -50 }))
 
 addBuilding(new Building(BUILDING_TYPES.STATIC_GOLD, 10, 'testBuilding', { x: -250, z: 0 }, { gold: 10 }))
 addBuilding(new Building(BUILDING_TYPES.STABLE, 15, 'testBuilding', { x: -150, z: 50 }, { value: 30 }))

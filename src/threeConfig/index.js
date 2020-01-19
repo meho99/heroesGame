@@ -48,9 +48,9 @@ export const makeInitialScene = ({ light, camera, controls } = {}) => {
 
     // ----- lights -----
     if (!light) {
-        const defaultLight = new THREE.DirectionalLight(0xffffff, 1.2)
+        const defaultLight = new THREE.DirectionalLight(0xffffff, 0.6)
         scene.add(defaultLight)
-        const defaultLight2 = new THREE.AmbientLight(0xffffff, 0.1)
+        const defaultLight2 = new THREE.AmbientLight(0xffffff, 0.4)
         scene.add(defaultLight2)
     } else {
         scene.add(light)
@@ -75,7 +75,6 @@ export const makeInitialScene = ({ light, camera, controls } = {}) => {
         defaultControls.enableDamping = true
         defaultControls.rotateSpeed = 0.2
         defaultControls.maxDistance = 220
-        defaultControls.position0 = (0, 0, 0)
         defaultControls.minDistance = 200
         defaultControls.maxPolarAngle = Math.PI / 3
         defaultControls.mouseButtons = {
