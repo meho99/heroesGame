@@ -22,6 +22,7 @@ export class Player {
         this.type = 'player'
         this.gold = 0
         this.army = new Army()
+        this.recruits = 10
 
         this.id = idGenerator()
 
@@ -94,7 +95,7 @@ export class Player {
         if (scene) scene.add(this.circle)
         this.updateCircleSize()
         this.moveCameraToPlayer()
-        UpdatePlayerDetails(this.name, this.gold)
+        UpdatePlayerDetails(this.name, this.gold, this.recruits)
         updatePlayerRange((this.currentRange / this.range * 100).toFixed(0) + '%')
     }
 
@@ -127,6 +128,13 @@ export class Player {
 
     spendGold = (gold) => {
         this.gold -= gold
+    }
+
+    addRecruits = (quantity) => {
+        this.recruits += quantity
+    }
+    removeRecruits = (quantity) => {
+        this.recruits -= quantity
     }
 
     getContainer = () => {
