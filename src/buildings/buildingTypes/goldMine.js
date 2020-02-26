@@ -33,7 +33,7 @@ export const actions = {
                 addWindow('collect')
                 player.addGold(gold)
                 changeInformationWindows('info', createInfoElement(removeWindow, gold, player.name, armyInfo))
-                UpdatePlayerDetails(player.name, player.gold, player.recruits)
+                UpdatePlayerDetails(player)
                 setChangeOwnerBlock(true)
                 changeCircleColor(0x000000)
                 changeOwnerId(player.id)
@@ -51,7 +51,7 @@ export const actions = {
     }) => {
         const player = findPlayerById(ownerId)
         player.addGold(gold)
-        UpdatePlayerDetails(player.name, player.gold, player.recruits)
+        UpdatePlayerDetails(player)
     }
 }
 export const informationsWindows = ({ additional, removeWindow, army }) => {

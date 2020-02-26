@@ -22,7 +22,7 @@ export const actions = {
             player.addGold(gold)
             scene.remove(circle)
             scene.remove(container)
-            UpdatePlayerDetails(player.name, player.gold, player.recruits)
+            UpdatePlayerDetails(player)
         }
         else {
             battleStart(player, { army })

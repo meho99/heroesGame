@@ -20,7 +20,7 @@ export class Player {
         this.round = 0
         this.name = name
         this.type = 'player'
-        this.gold = 0
+        this.gold = 50
         this.army = new Army()
         this.recruits = 10
 
@@ -95,7 +95,7 @@ export class Player {
         if (scene) scene.add(this.circle)
         this.updateCircleSize()
         this.moveCameraToPlayer()
-        UpdatePlayerDetails(this.name, this.gold, this.recruits)
+        UpdatePlayerDetails(this)
         updatePlayerRange((this.currentRange / this.range * 100).toFixed(0) + '%')
     }
 
@@ -136,6 +136,8 @@ export class Player {
     removeRecruits = (quantity) => {
         this.recruits -= quantity
     }
+
+    // metoda do pobierania rekrutow (funckja, ktora zwraca this.recruts)
 
     getContainer = () => {
         return this.playerContainer

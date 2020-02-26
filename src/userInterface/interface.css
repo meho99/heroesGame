@@ -7,7 +7,15 @@ line-height: 1.4em;
 vertical-align: baseline;
 text-decoration: none;
 outline: 0;
+-webkit-touch-callout: none; /* iOS Safari */
+-webkit-user-select: none; /* Safari */
+-khtml-user-select: none; /* Konqueror HTML */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* Internet Explorer/Edge */
+user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
 }
+
 #bottomMenu{
     width: 100%;
     height: 50px;
@@ -85,8 +93,14 @@ outline: 0;
 
 #recruit{
     background-color: rgb(47, 105, 116);
-    width: 50px;
+    width: 100px;
     height: 50px;
     cursor: pointer ;
     margin-top: 100px;
+}
+#recruit:hover {background-color: rgb(35, 77, 85)}
+
+#recruit:active {
+  background-color: rgb(35, 77, 85);
+  transform: translateY(4px);
 }

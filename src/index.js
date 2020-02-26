@@ -34,6 +34,12 @@ addBuilding(new Building(BUILDING_TYPES.STATIC_GOLD, 10, 'testBuilding', { x: -2
 addBuilding(new Building(BUILDING_TYPES.STABLE, 15, 'testBuilding', { x: -150, z: 50 }, { value: 30 }))
 addBuilding(new Building(BUILDING_TYPES.GOLD_MINE, 15, 'testBuilding', { x: -50, z: -230 }, { gold: 30 }))
 
+export const addWarriorToArmy = (type, player) => {
+    allPlayers[player].army.addWarriors(`${type}`, 1)
+}
+
+
+
 allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
 allPlayers[0].army.addWarriors('AMATEUR', 1)
 allPlayers[0].army.addWarriors('GOBLIN', 2)
