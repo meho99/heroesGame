@@ -1,69 +1,62 @@
 import './interface.css'
-import { addWarriorToArmy, } from '../index'
-import { Player } from '../characters/Player/index'
-var bottomMenu = document.createElement("div")
+
+const bottomMenu = document.createElement("div")
 bottomMenu.id = 'bottomMenu'
 
-var currentPlayer = document.createElement("p")
-bottomMenu.appendChild(currentPlayer)
-currentPlayer.innerHTML = "player name"
-currentPlayer.id = "bottomMenu_curretPlayer"
-
-var gold = document.createElement("p")
-bottomMenu.appendChild(gold)
-gold.innerHTML = "gold: 5787"
-gold.id = "bottomMenu_gold"
-
-var recruits = document.createElement("p")
-bottomMenu.appendChild(recruits)
-recruits.innerHTML = "rekruci: 0"
-recruits.id = "bottomMenu_recruits"
-
-var recruiting = document.createElement("button")
+const createBottomMenuParagraph = (text, id) => {
+    const Paragraph = document.createElement("p")
+    bottomMenu.appendChild(Paragraph)
+    Paragraph.innerHTML = text
+    Paragraph.id = id
+    return Paragraph
+}
+createBottomMenuParagraph("player name", "bottomMenu_curretPlayer")
+const gold = createBottomMenuParagraph("gold: 5787", "bottomMenu_gold")
+const recruits = createBottomMenuParagraph("rekruci: 0", "bottomMenu_recruits")
+const recruiting = document.createElement("button")
 bottomMenu.appendChild(recruiting)
 recruiting.innerHTML = "trenuj"
-recruiting.id = "bottomMenu_recruiting"
+recruiting.className = "blueButton"
 
-var recrutingInterface
+let recrutingInterface
 
-var recrutingInterfaceContainer = document.createElement("div")
+const recrutingInterfaceContainer = document.createElement("div")
 recrutingInterfaceContainer.id = "recruting_interface_container"
 recrutingInterface = document.createElement("div")
 recrutingInterface.id = "recruting_interface"
 recrutingInterfaceContainer.appendChild(recrutingInterface)
 
-var border = document.createElement("div")
+const border = document.createElement("div")
 border.id = "border"
 recrutingInterface.appendChild(border)
 
-var recruit = document.createElement("div")
-recruit.id = "recruit"
-recruit.innerHTML = 'AMATEUR'
+const recruit = document.createElement("div")
+recruit.className = "blueButton"
+recruit.innerHTML = 'AMATEUR' //TODO
 recrutingInterface.appendChild(recruit)
 
-var closingButton = document.createElement("div")
+const closingButton = document.createElement("button")
 closingButton.id = "closing_button"
 recrutingInterface.appendChild(closingButton)
+closingButton.innerHTML="X"
 
 closingButton.addEventListener("click", () => {
     ShowHideRecrutingMenu()
 })
 
 const UpdateRecrutingInterface = (player) => {
-    // zmiana kontentu (mozliwi ludzie do zarekrutowania) np recruit.innerHTML = player.recruits
     recruit.addEventListener("click", () => {
 
-        if (player.gold >= 10 && player.recruits >= 1) {  //do zmiany sztywne wartości 
-            player.army.addWarriors('AMATEUR', 1)
-            player.spendGold(10)
+        if (player.gold >= 10 && player.recruits >= 1) {  //TODO    
+            player.army.addWarriors('AMATEUR', 1) //TODO
+            player.spendGold(10) //TODO
             player.removeRecruits(1)
-            var goldInterfaceUpdate = String(player.gold)
-            var recruitsInterfaceUpdate = String(player.recruits)
+            const goldInterfaceUpdate = String(player.gold)
+            const recruitsInterfaceUpdate = String(player.recruits)
             gold.innerHTML = "Złoto: " + goldInterfaceUpdate
             recruits.innerHTML = "rekruci: " + recruitsInterfaceUpdate
         }
         else {
-            console.log("nie")
             alert("Nie posiadasz wystarczająco dużo złota lub rekrutów")
         }
     })
@@ -85,11 +78,11 @@ recruiting.addEventListener("click", () => {
     ShowHideRecrutingMenu()
 })
 
-var bottomMenu_rangeContainer = document.createElement("div")
+const bottomMenu_rangeContainer = document.createElement("div")
 bottomMenu.appendChild(bottomMenu_rangeContainer)
 bottomMenu_rangeContainer.id = "bottomMenu_rangeContainer"
 
-var bottomMenu_range = document.createElement("div")
+const bottomMenu_range = document.createElement("div")
 bottomMenu_rangeContainer.appendChild(bottomMenu_range)
 bottomMenu_range.id = "bottomMenu_range"
 

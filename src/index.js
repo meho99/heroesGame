@@ -35,7 +35,7 @@ addBuilding(new Building(BUILDING_TYPES.STABLE, 15, 'testBuilding', { x: -150, z
 addBuilding(new Building(BUILDING_TYPES.GOLD_MINE, 15, 'testBuilding', { x: -50, z: -230 }, { gold: 30 }))
 
 export const addWarriorToArmy = (type, player) => {
-    allPlayers[player].army.addWarriors(`${type}`, 1)
+    allPlayers[player].army.addWarriors(type, 1)
 }
 
 
