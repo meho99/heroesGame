@@ -3,9 +3,9 @@ import { findPlayerById } from '../../characters/Player/allPlayers'
 import { makeArmyInfo } from '../../commonFunctions'
 import { battleStart } from '../../battle'
 
-const createInfoElement = (removeWindow, gold, ownerName, armyInfo) => createWindow(
-    'Kopalnia kryształów',
-    `dostarcza ${gold} kryształów dziennie </br> właściciel: ${ownerName ? ownerName : 'brak'} </br>
+const createInfoElement = (removeWindow, recruits, ownerName, armyInfo) => createWindow(
+    'Wioska',
+    `dostarcza ${recruits} rekrutów dziennie </br> właściciel: ${ownerName ? ownerName : 'brak'} </br>
     Bronione przez:</br>${armyInfo} `,
     `OK`,
     () => {
@@ -19,20 +19,19 @@ export const actions = {
         changeCircleColor,
         addWindow,
         changeInformationWindows,
-        additional: { gold },
+        additional: { recruits },
         player, // player, that is now owner of this building
         removeWindow,
         changeOwnerId,
         army,
         UpdatePlayerDetails
     }) => {
-
         if (army.isArmyEmpty()) {
             if (!changeOwnerBlock) {
                 let armyInfo = makeArmyInfo(army.warriors)
                 addWindow('collect')
-                player.addGold(gold)
-                changeInformationWindows('info', createInfoElement(removeWindow, gold, player.name, armyInfo))
+                player.addRecruits(recruits)
+                changeInformationWindows('info', createInfoElement(removeWindow, recruits, player.name, armyInfo))
                 UpdatePlayerDetails(player)
                 setChangeOwnerBlock(true)
                 changeCircleColor(0x000000)
@@ -46,11 +45,11 @@ export const actions = {
     },
     dailyAction: ({
         ownerId,
-        additional: { gold },
+        additional: { recruits },
         UpdatePlayerDetails
     }) => {
         const player = findPlayerById(ownerId)
-        player.addGold(gold)
+        player.addRecruits(recruits)
         UpdatePlayerDetails(player)
     }
 }
@@ -66,15 +65,15 @@ export const informationsWindows = ({ additional, removeWindow, army }) => {
         }
     )
     const collectInfoElemnt = createWindow(
-        'Kopalnia kryształów',
-        `Zdobyłeś Kopalnie kryształów (dostarcza ${additional.gold} kryształów dziennie)`,
+        'Wioska',
+        `Zdobyłeś wioske (dostarcza ${additional.recruits} rekrutów dziennie)`,
         `OK`,
         () => {
             removeWindow('collect')
         }
     )
 
-    const infoElment = createInfoElement(removeWindow, additional.gold, null, armyInfo)
+    const infoElment = createInfoElement(removeWindow, additional.recruits, null, armyInfo)
 
     return {
         collect: {

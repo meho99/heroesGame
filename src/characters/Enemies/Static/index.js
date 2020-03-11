@@ -10,7 +10,6 @@ import { Army } from '../../Army'
 
 export class StaticEnemy {
     constructor(range, modelName, startPosition) {
-
         this.range = range
         this.id = idGenerator()
         this.modelName = modelName
@@ -26,12 +25,10 @@ export class StaticEnemy {
     }
 
     findStaticEnemyModel = ({ x, z }) => {
-        this.modelDetails = staticEnemyModels.find(model => model.name = this.modelName)
+        this.modelDetails = staticEnemyModels.find(model => model.name === this.modelName)
 
         this.staticEnemyContainer = new THREE.Object3D()
-        this.staticEnemyModel = new THREE.Mesh(this.modelDetails.geometry, this.modelDetails.material)
-
-        this.staticEnemyContainer.add(this.staticEnemyModel)
+        this.staticEnemyContainer.add(this.modelDetails.model())
         this.staticEnemyContainer.position.set(x, this.FlightHeight, z)
     }
 
@@ -120,9 +117,6 @@ export class StaticEnemy {
 
     getContainer = () => {
         return this.staticEnemyContainer
-    }
-    getStaticEnemyModel = () => {
-        return this.staticEnemyModel
     }
     getCircle = () => {
         return this.circle

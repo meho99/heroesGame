@@ -26,7 +26,7 @@ export class Bird {
     }
 
     findBirdModel = ({ x, z }) => {
-        this.modelDetails = birdModels.find(model => model.name = this.modelName)
+        this.modelDetails = birdModels.find(model => model.name === this.modelName)
 
         this.birdContainer = new THREE.Object3D()
 
@@ -40,7 +40,8 @@ export class Bird {
         this.birdBodyContainer.add(this.model)
         this.birdBodyContainer.add(this.birdHitPoint)
 
-        this.model.rotation.y = this.modelDetails.rotationCorrections
+        if (this.modelDetails.rotationCorrections)
+            this.model.rotation.y = this.modelDetails.rotationCorrections
 
         this.birdContainer.add(this.birdBodyContainer)
         this.birdContainer.position.set(x, this.FlightHeight, z)
@@ -133,7 +134,7 @@ export class Bird {
         if (this.birdContainer.position.clone().distanceTo(playerContainer.position.clone()) <= this.birdHitPoint.geometry.parameters.width / 2 + playerModel.geometry.parameters.width) {
             battleStart(player, this)
             this.addWindow('fight')
-            
+
         }
         this.birdContainer.translateOnAxis(this.directionVect, this.speed)
     }

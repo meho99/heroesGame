@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { makeInitialScene } from '../threeConfig'
 import grassTexture from '../worldElements/textures/grass.jpg'
 
-export const { scene, camera, cameraControls } = makeInitialScene({ controlsConfig: { update: () => { } } })
+export const { scene, camera, cameraControls } = makeInitialScene()
 
 const texture = new THREE.TextureLoader().load(grassTexture)
 texture.wrapS = THREE.RepeatWrapping;

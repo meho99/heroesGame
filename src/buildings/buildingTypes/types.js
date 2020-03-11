@@ -1,5 +1,6 @@
 export const BUILDING_TYPES = {
     STATIC_GOLD: 'gold',
     STABLE: 'stable',
-    GOLD_MINE: 'goldMine'
+    GOLD_MINE: 'goldMine',
+    VILLAGE: 'village'
 } 

@@ -1,0 +1,106 @@
+
+* {
+margin: 0;
+padding: 0;
+font-size: 18px;
+border: 0;
+line-height: 1.4em;
+vertical-align: baseline;
+text-decoration: none;
+outline: 0;
+-webkit-touch-callout: none; /* iOS Safari */
+-webkit-user-select: none; /* Safari */
+-khtml-user-select: none; /* Konqueror HTML */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* Internet Explorer/Edge */
+user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
+#bottomMenu{
+    width: 100%;
+    height: 50px;
+    background-color: rgba(42, 42, 42, 0.863);
+    position: fixed;
+    bottom: 0;
+    border-top: 10px solid rgb(47, 105, 116);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#bottomMenu_curretPlayer{
+    margin-left: 10px;
+   color: #f2f2f2;
+}
+
+#bottomMenu_gold{
+    color: #f2f2f2;
+
+}
+
+#bottomMenu_recruits{
+    color: #f2f2f2;
+}
+
+#bottomMenu_rangeContainer{
+    width: 150px;
+    height: 30px;
+    border: 2px solid rgb(255, 255, 255);
+    margin-right: 10px;
+}
+
+#bottomMenu_range{
+    width: 100%;
+    height: 30px;
+    background-color: rgb(47, 105, 116);
+    -webkit-transition: width 1.5s; /* For Safari 3.1 to 6.0 */
+    transition: width 1.5s;
+}
+#recruting_interface_container{
+    widows: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+#recruting_interface{
+    width: 80%;
+    height: 500px;
+    background-color: rgba(42, 42, 42, 0.863);
+    position: absolute;
+    top: 100px;
+
+}
+#closing_button{
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer ;
+}
+#border{
+    width: 100%;
+    height: 30px;
+    background-color: rgb(47, 105, 116);
+    top: 0;
+}
+#bottomMenu_recruiting{
+    cursor: pointer ;
+}
+
+.blueButton{
+    background-color: rgb(47, 105, 116);
+    padding: 16px;
+    color: white;
+    margin: 5px;
+    cursor: pointer ;
+}
+#recruit:hover {background-color: rgb(35, 77, 85)}
+
+#recruit:active {
+  background-color: rgb(35, 77, 85);
+  transform: translateY(4px); /* TODO */
+}
