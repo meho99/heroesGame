@@ -3,7 +3,7 @@ import { battleEnd } from './'
 import { randomNumber } from '../commonFunctions'
 import { enableMouseEventsOnScene, listenersName, changeCursor } from '../threeConfig'
 import { obstaclesInit } from './obstacles'
-import { WARRIOR_ABILITIES } from '../characters/warriors'
+import { WARRIOR_ABILITIES } from '../characters/warriors/consts'
 
 let players = {}
 

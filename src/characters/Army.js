@@ -1,5 +1,5 @@
 import { idGenerator } from '../commonFunctions'
-import { newWarrior } from './warriors'
+import { newWarrior } from './warriors/'
 import { createWindow } from '../threeConfig'
 
 export class Army {
