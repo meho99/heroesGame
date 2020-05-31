@@ -15,6 +15,7 @@ import { addStaticEnemy, allStaticEnemies } from './characters/Enemies/Static/al
 import { Building } from './buildings'
 import { addBuilding, allBuildings } from './buildings/allbuildings'
 import { BUILDING_TYPES } from './buildings/buildingTypes/types'
+import { WARRIOR_NAMES, WARRIOR_TYPES } from './characters/warriors/consts'
 
 
 
@@ -41,21 +42,20 @@ export const addWarriorToArmy = (type, player) => {
 
 
 
-allPlayers[0].army.addWarriors('AMATEUR', 3) // add basic army to test battle
-allPlayers[0].army.addWarriors('AMATEUR', 1)
-allPlayers[0].army.addWarriors('GOBLIN', 2)
-allPlayers[0].army.addWarriors('ARCHER', 2)
+allPlayers[0].army.addWarriors(WARRIOR_TYPES.SERGEANT, 3) // add basic army to test battle
+allPlayers[0].army.addWarriors(WARRIOR_TYPES.PEASANT, 3)
+allPlayers[0].army.addWarriors(WARRIOR_TYPES.ARCHER, 2)
 
-allBirds[0].updateWarriors('AMATEUR', 5)
+allBirds[0].updateWarriors(WARRIOR_TYPES.BIRD, 5)
 
-allStaticEnemies[0].updateWarriors('AMATEUR', 2)
-allStaticEnemies[1].updateWarriors('GOBLIN', 2)
+allStaticEnemies[0].updateWarriors(WARRIOR_TYPES.GOBLIN, 10)
+allStaticEnemies[1].updateWarriors(WARRIOR_TYPES.GOBLIN, 7)
 
-allBuildings[0].updateWarriors('GOBLIN', 1)
-allBuildings[0].updateWarriors('AMATEUR', 1)
-allBuildings[1].updateWarriors('AMATEUR', 1)
-allBuildings[2].updateWarriors('AMATEUR', 1)
-allBuildings[3].updateWarriors('GOBLIN', 6)
+allBuildings[0].updateWarriors(WARRIOR_TYPES.SERGEANT, 2)
+allBuildings[0].updateWarriors(WARRIOR_TYPES.BIRD, 5)
+allBuildings[1].updateWarriors(WARRIOR_TYPES.GOBLIN, 4)
+allBuildings[2].updateWarriors(WARRIOR_TYPES.GOBLIN, 6)
+allBuildings[3].updateWarriors(WARRIOR_TYPES.BIRD, 6)
 worldNavigationStart()
 
 //battleStart(allPlayers[0], allBirds[0])

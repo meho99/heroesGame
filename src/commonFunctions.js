@@ -6,7 +6,7 @@ export const makeArmyInfo = (warriors) => {
     let armyInfo = ``
     for (const name in warriors) {
         if (name && warriors[name]) {
-            armyInfo += `- ${warriors[name].quantity}x ${name} </br>`
+            armyInfo += `- ${warriors[name].quantity}x ${warriors[name].name} </br>`
         }
     }
     return armyInfo

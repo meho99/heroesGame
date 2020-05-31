@@ -45,8 +45,7 @@ closingButton.addEventListener("click", () => {
 })
 
 const UpdateRecrutingInterface = (player) => {
-    recruit.addEventListener("click", () => {
-
+    recruit.onclick = (e) => {
         if (player.gold >= 10 && player.recruits >= 1) {  //TODO    
             player.army.addWarriors('AMATEUR', 1) //TODO
             player.spendGold(10) //TODO
@@ -59,7 +58,7 @@ const UpdateRecrutingInterface = (player) => {
         else {
             alert("Nie posiadasz wystarczająco dużo złota lub rekrutów")
         }
-    })
+    }
 }
 
 let active = true
