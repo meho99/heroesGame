@@ -11,6 +11,7 @@ import { battleInit } from './battleControl'
 import { boardUpdate, boardGroup } from './board'
 import { obstaclesGroup } from './obstacles'
 import { HideBottomMenu } from '../userInterface/bottomMenu'
+import { showBattleInterfaces, hideBattleStatusContainer } from './interfaces'
 
 const render = () => {
     boardUpdate()
@@ -19,6 +20,7 @@ const render = () => {
 export const battleStart = (player, enemy) => {
     scene.add(boardGroup)
     scene.add(obstaclesGroup)
+    showBattleInterfaces()
     sceneInit()
     setCurrentScene(scene, camera, cameraControls)
     setGroupToClick(boardGroup)
@@ -29,5 +31,6 @@ export const battleStart = (player, enemy) => {
 
 export const battleEnd = (killed) => {
     clearScene(obstaclesGroup)
+    hideBattleStatusContainer()
     worldNavigationRestart(killed)
 }
