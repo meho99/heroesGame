@@ -1,9 +1,10 @@
-import { onFieldTypes, emptyFieldData, playersColors, boardWidth, boardHeight } from './constants'
+import { onFieldTypes, emptyFieldData, playersColors, boardWidth, boardHeight, battleStatusMessages } from './constants'
 import { battleEnd } from './'
 import { randomNumber } from '../commonFunctions'
 import { enableMouseEventsOnScene, listenersName, changeCursor } from '../threeConfig'
 import { obstaclesInit } from './obstacles'
 import { WARRIOR_ABILITIES } from '../characters/warriors/consts'
+import { addMessage } from './interfaces'
 
 let players = {}
 
@@ -27,6 +28,7 @@ export const nextRound = (warriorId) => {
         currentRound += 1
 
     }
+    addMessage(battleStatusMessages.newRound(getCurrentWarrior().name))
     checkWarriorAbilities()
     showWarriorRange(getCurrentWarrior(), onFieldTypes.AVAILABLE_WALK)
     // for (let i = 0; i < 3; i++) {
@@ -237,13 +239,21 @@ const deleteDeadWarriors = () => {
     return isKilled
 }
 
+const killUnit = (army, id, attacker, killed) => {
+    army.killUnit(id)
+    addMessage(battleStatusMessages.kill(attacker.name, killed.name))
+}
+
 const attackWarrior = (id, type) => {
     const attacker = { ...getCurrentWarrior() }
     const damage = randomNumber(getCurrentWarrior().damage.min, getCurrentWarrior().damage.max)
     const attackPower = attacker.quantity * damage
     players[type].army.defendAttack(id, attackPower, getCurrentWarrior().quantity)
+
+    addMessage(battleStatusMessages.hit(attacker.name, findWarriorById(id).name, damage))
+
     if (findWarriorById(id).quantity <= 0) {
-        players[type].army.killUnit(id)
+        killUnit(players[type].army, id, attacker, findWarriorById(id))
     }
     if (deleteDeadWarriors()) {// restart round when warrior killed someone
         nextRound(attacker.id)
@@ -256,8 +266,11 @@ const shootWarrior = (id, type) => {
     const damage = randomNumber(getCurrentWarrior().shootDamage.min, getCurrentWarrior().shootDamage.max)
     const shootPower = attacker.quantity * damage
     players[type].army.defendAttack(id, shootPower, getCurrentWarrior().quantity)
+
+    addMessage(battleStatusMessages.hit(attacker.name, findWarriorById(id).name, damage))
+
     if (findWarriorById(id).quantity <= 0) {
-        players[type].army.killUnit(id)
+        killUnit(players[type].army, id, attacker, findWarriorById(id))
     }
     if (deleteDeadWarriors()) {// restart round when warrior killed someone
         nextRound(attacker.id)

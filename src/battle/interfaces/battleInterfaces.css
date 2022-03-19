@@ -1,0 +1,29 @@
+#battle_status_container {
+  width: 20vw;
+  min-width: 200px;
+  max-width: 350px;
+  background-color: rgba(0, 0, 0, 0.356);
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.battle_status_message {
+  margin: 3px;
+  font-size: 15px;
+  color: rgb(95, 181, 192);
+}
+
+.battle_status_message_neutral {
+  color: white
+}
+.battle_status_message_standard {
+  color: blue
+}
+.battle_status_message_important {
+  color: red
+}

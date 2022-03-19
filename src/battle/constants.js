@@ -36,3 +36,24 @@ export const emptyFieldData = {
     type: onFieldTypes.EMPTY,
     id: 0
 }
+
+export const messageClasses = {
+    neutralInfo: 'battle_status_message_neutral',
+    standardInfo: 'battle_status_message_standard',
+    importantInfo: 'battle_status_message_important'
+}
+
+export const battleStatusMessages = {
+    hit: (attacker, defender, hp) => ({
+        message:  `${attacker} zadaje ${hp} obrazeń jednostce ${defender}`,
+        class: messageClasses.standardInfo
+    }),
+    kill: (attacker, defender) => ({
+        message:  `${defender} zostaje zabity przez ${attacker}`,
+        class: messageClasses.importantInfo
+    }),
+    newRound: (warrior) => ({
+        message: `Tura jednostki ${warrior}`,
+        class: messageClasses.neutralInfo
+    })
+}
